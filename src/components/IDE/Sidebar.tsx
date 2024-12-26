@@ -20,26 +20,26 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <div className="w-64 overflow-y-auto border-r border-gray-800">
-      <div className="p-4">
-        <h2 className="mb-2 text-sm uppercase text-gray-400">Explorer</h2>
+    <div className="w-56 overflow-y-auto border-r border-gray-800">
+      <div className="p-3">
+        <h2 className="mb-2 text-xs uppercase text-gray-400">Explorer</h2>
         {sidebarItems.map((item) => (
           <div key={item.name}>
-            <div className="flex items-center gap-2 rounded px-2 py-1 text-gray-300 hover:bg-gray-800">
-              <FolderIcon size={16} />
-              <span>{item.name}</span>
+            <div className="flex items-center gap-1.5 rounded px-1.5 py-0.5 text-gray-300 hover:bg-gray-800">
+              <FolderIcon size={14} />
+              <span className="text-xs">{item.name}</span>
             </div>
-            <div className="ml-4">
+            <div className="ml-3">
               {item.items.map((subItem) => (
                 <Link
                   key={subItem.name}
                   href={subItem.path}
-                  className={`flex items-center gap-2 rounded px-2 py-1 text-gray-300 hover:bg-gray-800 ${
+                  className={`flex items-center gap-1.5 rounded px-1.5 py-0.5 text-gray-300 hover:bg-gray-800 ${
                     pathname === subItem.path ? "bg-gray-800" : ""
                   }`}
                 >
-                  <FileIcon size={16} />
-                  <span>{subItem.name}</span>
+                  <FileIcon size={14} />
+                  <span className="text-xs">{subItem.name}</span>
                 </Link>
               ))}
             </div>

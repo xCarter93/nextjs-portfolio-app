@@ -19,7 +19,7 @@ export function Tabs() {
           <Link
             key={tab.name}
             href={tab.path}
-            className={`border-r border-gray-800 px-4 py-2 hover:bg-gray-800 ${
+            className={`border-r border-gray-800 px-3 py-1.5 text-xs hover:bg-gray-800 ${
               pathname === tab.path ? "bg-gray-800" : ""
             }`}
           >
