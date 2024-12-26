@@ -1,6 +1,7 @@
 "use client";
 
-import { FileIcon, FolderIcon } from "lucide-react";
+import { FolderIcon } from "lucide-react";
+import { SiReact } from "react-icons/si";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -19,6 +20,13 @@ const sidebarItems = [
 export function Sidebar() {
   const pathname = usePathname();
 
+  const getFileIcon = (fileName: string) => {
+    if (fileName.endsWith(".tsx")) {
+      return <SiReact size={14} className="text-[#61DAFB]" />;
+    }
+    return null;
+  };
+
   return (
     <div className="w-56 overflow-y-auto border-r border-gray-800">
       <div className="p-3">
@@ -29,7 +37,8 @@ export function Sidebar() {
               <FolderIcon size={14} />
               <span className="text-xs">{item.name}</span>
             </div>
-            <div className="ml-3">
+            <div className="relative ml-6">
+              <div className="absolute -left-3 top-0 h-full w-px bg-gray-800" />
               {item.items.map((subItem) => (
                 <Link
                   key={subItem.name}
@@ -38,7 +47,7 @@ export function Sidebar() {
                     pathname === subItem.path ? "bg-gray-800" : ""
                   }`}
                 >
-                  <FileIcon size={14} />
+                  {getFileIcon(subItem.name)}
                   <span className="text-xs">{subItem.name}</span>
                 </Link>
               ))}
