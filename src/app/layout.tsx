@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { TabsProvider } from "@/contexts/TabsContext";
 import { IDELayout } from "@/components/IDE/IDELayout";
-import AnimatedBeam from "@/components/animata/background/animated-beam";
+import ParticlesBackground from "@/components/Background/ParticlesBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} text-sm antialiased`}>
-        <AnimatedBeam>
-          <TabsProvider>
-            <IDELayout>{children}</IDELayout>
-          </TabsProvider>
-        </AnimatedBeam>
+        <ParticlesBackground />
+        <TabsProvider>
+          <IDELayout>{children}</IDELayout>
+        </TabsProvider>
       </body>
     </html>
   );

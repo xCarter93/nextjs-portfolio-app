@@ -15,6 +15,7 @@ const sidebarItems = [
       { name: "projects.tsx", path: "/projects", type: "file" },
       { name: "work-experience.tsx", path: "/work-experience", type: "file" },
       { name: "contact.tsx", path: "/contact", type: "file" },
+      { name: "coding-stats.tsx", path: "/coding-stats", type: "file" },
     ],
   },
 ];

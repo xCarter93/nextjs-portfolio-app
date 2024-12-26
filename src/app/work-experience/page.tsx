@@ -41,7 +41,6 @@ const workHistory = [
 export default function WorkExperiencePage() {
   return (
     <div className="text-gray-300">
-      <code>{`// work-experience.tsx`}</code>
       <div className="mt-4">
         <h1 className="mb-6 text-2xl font-bold">Work Experience</h1>
         <div className="flex justify-center px-4">
