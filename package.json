@@ -25,13 +25,15 @@
     "react-icons": "^5.4.0",
     "react-rnd": "^10.4.14",
     "rehype-prism-plus": "^2.0.0",
-    "tailwind-merge": "^2.6.0"
+    "tailwind-merge": "^2.6.0",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "daisyui": "^4.12.22",
     "eslint": "^9",
     "eslint-config-next": "15.1.2",
     "postcss": "^8",

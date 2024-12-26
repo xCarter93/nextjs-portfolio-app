@@ -4,6 +4,7 @@ import { FolderIcon } from "lucide-react";
 import { SiReact } from "react-icons/si";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTabsContext } from "@/contexts/TabsContext";
 
 const sidebarItems = [
   {
@@ -12,6 +13,7 @@ const sidebarItems = [
     items: [
       { name: "about.tsx", path: "/about", type: "file" },
       { name: "projects.tsx", path: "/projects", type: "file" },
+      { name: "work-experience.tsx", path: "/work-experience", type: "file" },
       { name: "contact.tsx", path: "/contact", type: "file" },
     ],
   },
@@ -19,6 +21,7 @@ const sidebarItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { addTab } = useTabsContext();
 
   const getFileIcon = (fileName: string) => {
     if (fileName.endsWith(".tsx")) {
@@ -43,6 +46,9 @@ export function Sidebar() {
                 <Link
                   key={subItem.name}
                   href={subItem.path}
+                  onClick={() =>
+                    addTab({ name: subItem.name, path: subItem.path })
+                  }
                   className={`flex items-center gap-1.5 rounded px-1.5 py-0.5 text-gray-300 hover:bg-gray-800 ${
                     pathname === subItem.path ? "bg-gray-800" : ""
                   }`}

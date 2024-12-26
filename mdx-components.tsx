@@ -22,7 +22,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
     p: ({ children }) => <p className="mb-4 text-gray-300">{children}</p>,
     code: ({ children }) => <code className="font-mono">{children}</code>,
     pre: ({ children }) => (
-      <pre className="mb-4 mt-2 rounded-lg p-4">{children}</pre>
+      <pre className="mb-4 mt-2 rounded-lg">{children}</pre>
     ),
     ul: ({ children }) => (
       <ul className="mb-4 space-y-1 pl-5 text-gray-300">{children}</ul>

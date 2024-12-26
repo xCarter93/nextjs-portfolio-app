@@ -1,55 +1,73 @@
-# About Me
-
-I'm a passionate developer with expertise in modern web technologies.
-
-## Professional Summary
-
 ```typescript
+// Developer Profile
+interface Certification {
+  title: string;
+  issuedDate: Date;
+  url: string;
+}
+
 interface Developer {
   name: string;
   role: string;
   location: string;
+  currentCompany: string;
   skills: string[];
+  certifications: Certification[];
 }
 
+// Personal Information
 const me: Developer = {
   name: "Patrick Carter",
-  role: "Full Stack Developer",
+  role: "Senior Sales Systems Analyst",
   location: "Boston, MA",
+  currentCompany: "Datadog",
   skills: ["React/Next.js", "TypeScript", "Salesforce", "Node.js"],
+  certifications: [
+    {
+      title: "Salesforce Certified Administrator",
+      issuedDate: new Date(2023, 9),
+      url: "https://trailhead.salesforce.com/en/credentials/administrator",
+    },
+    {
+      title: "Salesforce Certified Platform App Builder",
+      issuedDate: new Date(2023, 10),
+      url: "https://trailhead.salesforce.com/en/credentials/platformappbuilder",
+    },
+    {
+      title: "Salesforce Certified Platform Developer I",
+      issuedDate: new Date(2023, 10),
+      url: "https://trailhead.salesforce.com/en/credentials/platformdeveloperi",
+    },
+    {
+      title: "Salesforce Certified JavaScript Developer I",
+      issuedDate: new Date(2024, 1),
+      url: "https://trailhead.salesforce.com/en/credentials/javascriptdeveloperi",
+    },
+  ],
 };
-```
 
-## Experience
-
-```typescript
-// Professional Experience
-const experience = {
-  current: {
-    role: "Senior Developer",
-    company: "Company",
-    period: "2020 - Present",
-    highlights: [
-      "Full-stack development",
-      "Cloud architecture",
-      "Team leadership",
-    ],
+// Tech Stack Overview
+const technologies = {
+  frontend: {
+    frameworks: ["React", "Next.js", "TypeScript"],
+    styling: ["Tailwind CSS", "CSS3", "Sass"],
+    state: ["Redux", "React Query", "Zustand"],
+  },
+  backend: {
+    runtime: "Node.js",
+    frameworks: ["Express", "NestJS"],
+    databases: ["PostgreSQL", "MongoDB", "Redis"],
+    api: ["REST", "GraphQL", "tRPC"],
+  },
+  cloud: {
+    providers: ["AWS", "Vercel", "Digital Ocean"],
+    services: ["EC2", "S3", "Lambda", "RDS"],
+    cicd: ["GitHub Actions", "Jenkins", "Docker"],
+  },
+  salesforce: {
+    development: ["Apex", "SOQL", "LWC"],
+    integration: ["APIs", "Middleware", "SSO"],
+    admin: ["Security", "Workflows", "Process Builder"],
   },
 };
 ```
-
-## Core Technologies
-
-- Frontend Development
-  - React/Next.js
-  - TypeScript
-  - Tailwind CSS
-- Backend Development
-  - Node.js
-  - RESTful APIs
-- Cloud & DevOps
-  - AWS
-  - CI/CD
-- Salesforce Development
-  - Apex
-  - Lightning Web Components

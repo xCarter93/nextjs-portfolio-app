@@ -17,7 +17,7 @@ interface IDELayoutProps {
 
 export function IDELayout({ children }: IDELayoutProps) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-900 p-4">
+    <div className="flex min-h-screen items-center justify-center p-4">
       <DraggableWindow>
         {/* Title bar */}
         <div className="handle flex h-8 cursor-move items-center border-b border-gray-800 bg-[#1f1f1f] px-3">
@@ -37,7 +37,7 @@ export function IDELayout({ children }: IDELayoutProps) {
           <div className="flex flex-1 flex-col">
             <Tabs />
             <div className="flex-1 overflow-y-auto bg-gray-800">
-              <main className="p-4">{children}</main>
+              <main>{children}</main>
             </div>
           </div>
         </div>

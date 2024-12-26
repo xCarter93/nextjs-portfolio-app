@@ -1,12 +1,15 @@
 "use client";
 
-import { GitBranchIcon } from "lucide-react";
+import { GitBranchIcon, Terminal } from "lucide-react";
 import { SiSalesforce, SiLinkedin } from "react-icons/si";
 import Link from "next/link";
+import { useTerminalStore } from "@/store/useTerminalStore";
 
 export function Footer() {
+  const toggle = useTerminalStore((state) => state.toggle);
+
   return (
-    <div className="flex h-6 items-center justify-between border-t border-gray-800 bg-[#1f1f1f] px-3 text-[11px] text-gray-400">
+    <div className="fixed bottom-0 left-0 right-0 flex h-6 items-center justify-between border-t border-gray-800 bg-[#1f1f1f] px-3 text-[11px] text-gray-400">
       <div className="flex items-center gap-3">
         <Link
           href="https://github.com/xCarter93"
@@ -35,6 +38,13 @@ export function Footer() {
         </Link>
       </div>
       <div className="flex items-center gap-3">
+        <button
+          onClick={toggle}
+          className="flex items-center hover:text-gray-300"
+          title="Toggle contact terminal"
+        >
+          <Terminal size={14} />
+        </button>
         <span>TypeScript</span>
         <span>UTF-8</span>
         <span>LF</span>

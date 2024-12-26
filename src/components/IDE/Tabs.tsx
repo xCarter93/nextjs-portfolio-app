@@ -1,30 +1,45 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-
-const tabs = [
-  { name: "about.tsx", path: "/about" },
-  { name: "projects.tsx", path: "/projects" },
-  { name: "contact.tsx", path: "/contact" },
-];
+import { useTabsContext } from "@/contexts/TabsContext";
+import { X } from "lucide-react";
 
 export function Tabs() {
-  const pathname = usePathname();
+  const { openTabs, activeTab, removeTab, setActiveTab } = useTabsContext();
+
+  if (openTabs.length === 0) {
+    return null;
+  }
 
   return (
     <div className="sticky top-0 z-10 border-b border-gray-800 bg-[#1e1e1e]">
       <div className="flex">
-        {tabs.map((tab) => (
-          <Link
-            key={tab.name}
-            href={tab.path}
-            className={`border-r border-gray-800 px-3 py-1.5 text-xs text-gray-400 hover:bg-gray-800 ${
-              pathname === tab.path ? "bg-gray-800 text-gray-200" : ""
+        {openTabs.map((tab) => (
+          <div
+            key={tab.path}
+            className={`group flex items-center border-r border-gray-800 ${
+              activeTab === tab.path
+                ? "bg-gray-800 text-gray-200"
+                : "text-gray-400"
             }`}
           >
-            {tab.name}
-          </Link>
+            <Link
+              href={tab.path}
+              onClick={() => setActiveTab(tab.path)}
+              className="px-3 py-1.5 text-xs hover:bg-gray-800"
+            >
+              {tab.name}
+            </Link>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                removeTab(tab.path);
+              }}
+              className="mr-1 rounded-sm p-0.5 opacity-0 hover:bg-gray-700 group-hover:opacity-100"
+            >
+              <X size={14} />
+            </button>
+          </div>
         ))}
       </div>
     </div>
