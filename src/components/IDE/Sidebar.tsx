@@ -5,6 +5,7 @@ import { SiReact } from "react-icons/si";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTabsContext } from "@/contexts/TabsContext";
+import { cn } from "@/lib/utils";
 
 const sidebarItems = [
   {
@@ -47,12 +48,11 @@ export function Sidebar() {
                 <Link
                   key={subItem.name}
                   href={subItem.path}
-                  onClick={() =>
-                    addTab({ name: subItem.name, path: subItem.path })
-                  }
-                  className={`flex items-center gap-1.5 rounded px-1.5 py-0.5 text-gray-300 hover:bg-gray-800 ${
-                    pathname === subItem.path ? "bg-gray-800" : ""
-                  }`}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-1 text-sm text-gray-400 hover:bg-[#2a2d2e]",
+                    pathname === subItem.path && "bg-[#37373d] text-white",
+                  )}
+                  onClick={() => addTab(subItem.name, subItem.path)}
                 >
                   {getFileIcon(subItem.name)}
                   <span className="text-xs">{subItem.name}</span>

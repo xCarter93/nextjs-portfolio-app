@@ -1,21 +1,22 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
 import { Sidebar } from "./Sidebar";
 import { Tabs } from "./Tabs";
 import { Footer } from "./Footer";
+import { DraggableWindow } from "./DraggableWindow";
 
-// Dynamically import the DraggableWindow with no SSR
-const DraggableWindow = dynamic(
-  () => import("./DraggableWindow").then((mod) => mod.DraggableWindow),
-  { ssr: false },
-);
+export function IDELayout({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
 
-interface IDELayoutProps {
-  children: React.ReactNode;
-}
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-export function IDELayout({ children }: IDELayoutProps) {
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <DraggableWindow>

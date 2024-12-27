@@ -15,10 +15,7 @@ export function Footer() {
 
   const handleStatsClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    addTab({
-      name: "coding-stats.tsx",
-      path: "/coding-stats",
-    });
+    addTab("coding-stats.tsx", "/coding-stats");
     router.push("/coding-stats");
   };
 

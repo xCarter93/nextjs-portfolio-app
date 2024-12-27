@@ -14,12 +14,12 @@ interface Tab {
   path: string;
 }
 
-interface TabsContextType {
+export interface TabsContextType {
   openTabs: Tab[];
   activeTab: string | null;
-  addTab: (tab: Tab) => void;
+  addTab: (label: string, path: string) => void;
   removeTab: (path: string) => void;
-  setActiveTab: (path: string) => void;
+  setActiveTab: (path: string | null) => void;
 }
 
 const pathToTabName: Record<string, string> = {
@@ -54,11 +54,11 @@ export function TabsProvider({ children }: { children: ReactNode }) {
     }
   }, [pathname]);
 
-  const addTab = (tab: Tab) => {
-    if (!openTabs.some((t) => t.path === tab.path)) {
-      setOpenTabs([...openTabs, tab]);
+  const addTab = (label: string, path: string) => {
+    if (!openTabs.some((t) => t.path === path)) {
+      setOpenTabs([...openTabs, { name: label, path }]);
     }
-    setActiveTab(tab.path);
+    setActiveTab(path);
   };
 
   const removeTab = (path: string) => {
