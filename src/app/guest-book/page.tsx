@@ -3,7 +3,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 
 import { createPost } from "@/lib/actions";
-import { SignIn, Submit } from "./components/buttons";
+import { SignIn, Submit } from "./_components/buttons";
 
 const getPosts = unstable_cache(
   () => {

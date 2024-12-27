@@ -1,53 +1,32 @@
+import { getContents } from "@/lib/contents";
+import { ModernInnerShadowCardVariant1 } from "./_components/ModernInnerShadowCardVariant1";
+
 export default function ProjectsPage() {
+  const projects = getContents("projects");
+
   return (
-    <div className="px-2 text-gray-300">
-      <div className="mt-4">
-        <div className="space-y-6">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-200">
-              IDE-Style Portfolio
-            </h2>
-            <p className="mt-2">
-              A portfolio website styled like a modern IDE, built with Next.js
-              and TypeScript.
-            </p>
-            <div className="mt-2">
-              <code className="text-sm text-gray-400">
-                Technologies: Next.js, TypeScript, Tailwind CSS, React-Rnd
+    <div className="p-4 text-gray-300">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <ModernInnerShadowCardVariant1
+            key={project.slug}
+            backgroundImage={project.metadata.image}
+          >
+            <div className="flex h-full flex-col justify-between space-y-2">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-200">
+                  {project.metadata.title}
+                </h2>
+                <p className="line-clamp-2 text-sm text-gray-400">
+                  {project.metadata.summary}
+                </p>
+              </div>
+              <code className="text-sm text-[#5de4c7]">
+                Technology: {project.metadata.technology}
               </code>
             </div>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-semibold text-gray-200">
-              Project Name
-            </h2>
-            <p className="mt-2">
-              Project description goes here. Explain what the project does and
-              why it&apos;s interesting.
-            </p>
-            <div className="mt-2">
-              <code className="text-sm text-gray-400">
-                Technologies: React, Node.js, MongoDB
-              </code>
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-semibold text-gray-200">
-              Another Project
-            </h2>
-            <p className="mt-2">
-              Another project description. Highlight the key features and
-              technologies used.
-            </p>
-            <div className="mt-2">
-              <code className="text-sm text-gray-400">
-                Technologies: Vue.js, Express, PostgreSQL
-              </code>
-            </div>
-          </div>
-        </div>
+          </ModernInnerShadowCardVariant1>
+        ))}
       </div>
     </div>
   );
