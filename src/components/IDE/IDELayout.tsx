@@ -13,10 +13,6 @@ export function IDELayout({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
       <DraggableWindow>
@@ -34,13 +30,17 @@ export function IDELayout({ children }: { children: React.ReactNode }) {
 
         {/* IDE Content */}
         <div className="flex h-[calc(100%-3.5rem)]">
-          <Sidebar />
-          <div className="flex flex-1 flex-col">
-            <Tabs />
-            <div className="flex-1 overflow-y-auto bg-gray-800">
-              <main>{children}</main>
-            </div>
-          </div>
+          {mounted && (
+            <>
+              <Sidebar />
+              <div className="flex flex-1 flex-col">
+                <Tabs />
+                <div className="flex h-full flex-1 overflow-y-auto bg-gray-800">
+                  <main className="w-full">{children}</main>
+                </div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Footer */}

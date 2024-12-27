@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { TabsProvider } from "@/contexts/TabsContext";
 import { IDELayout } from "@/components/IDE/IDELayout";
 import ParticlesBackground from "@/components/Background/ParticlesBackground";
+import { ClerkProvider } from "@clerk/nextjs";
 
-const inter = Inter({ subsets: ["latin"] });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Portfolio - IDE Style",
@@ -18,12 +19,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} text-sm antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        suppressHydrationWarning
+        className={`${jetbrainsMono.className} text-sm antialiased`}
+      >
         <ParticlesBackground />
-        <TabsProvider>
-          <IDELayout>{children}</IDELayout>
-        </TabsProvider>
+        <ClerkProvider>
+          <TabsProvider>
+            <IDELayout>{children}</IDELayout>
+          </TabsProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

@@ -20,7 +20,7 @@ export default function ContactPage() {
         className={`fixed inset-x-0 bottom-6 transform border-t border-gray-800 bg-black transition-transform duration-300 ${
           isOpen ? "block translate-y-0" : "hidden translate-y-full"
         }`}
-        style={{ height: "300px", marginLeft: "224px" }}
+        style={{ height: "300px", marginLeft: "240px" }}
       >
         <div className="h-full px-4">
           <ContactTerminal />

@@ -42,7 +42,7 @@ export default function WorkExperiencePage() {
   return (
     <div className="text-gray-300">
       <div className="mt-4">
-        <h1 className="mb-6 text-2xl font-bold">Work Experience</h1>
+        <h1 className="mb-6 text-center text-2xl font-bold">Work Experience</h1>
         <div className="flex justify-center px-4">
           <ul className="timeline timeline-vertical w-full max-w-5xl">
             {workHistory.map((job, index) => (

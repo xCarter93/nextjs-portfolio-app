@@ -1,10 +1,7 @@
 export default function ProjectsPage() {
   return (
-    <div className="text-gray-300">
-      <code>{`// projects.tsx`}</code>
+    <div className="px-2 text-gray-300">
       <div className="mt-4">
-        <h1 className="mb-4 text-2xl font-bold">Projects</h1>
-
         <div className="space-y-6">
           <div>
             <h2 className="text-xl font-semibold text-gray-200">

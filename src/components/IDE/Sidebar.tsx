@@ -1,66 +1,23 @@
 "use client";
 
-import { FolderIcon } from "lucide-react";
-import { SiReact } from "react-icons/si";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useTabsContext } from "@/contexts/TabsContext";
-import { cn } from "@/lib/utils";
-
-const sidebarItems = [
-  {
-    name: "portfolio",
-    type: "folder",
-    items: [
-      { name: "about.tsx", path: "/about", type: "file" },
-      { name: "projects.tsx", path: "/projects", type: "file" },
-      { name: "work-experience.tsx", path: "/work-experience", type: "file" },
-      { name: "contact.tsx", path: "/contact", type: "file" },
-      { name: "coding-stats.tsx", path: "/coding-stats", type: "file" },
-    ],
-  },
-];
+import { Tree } from "./recursive-tree";
 
 export function Sidebar() {
-  const pathname = usePathname();
-  const { addTab } = useTabsContext();
-
-  const getFileIcon = (fileName: string) => {
-    if (fileName.endsWith(".tsx")) {
-      return <SiReact size={14} className="text-[#61DAFB]" />;
-    }
-    return null;
-  };
-
   return (
-    <div className="w-56 overflow-y-auto border-r border-gray-800">
-      <div className="p-3">
-        <h2 className="mb-2 text-xs uppercase text-gray-400">Explorer</h2>
-        {sidebarItems.map((item) => (
-          <div key={item.name}>
-            <div className="flex items-center gap-1.5 rounded px-1.5 py-0.5 text-gray-300 hover:bg-gray-800">
-              <FolderIcon size={14} />
-              <span className="text-xs">{item.name}</span>
-            </div>
-            <div className="relative ml-6">
-              <div className="absolute -left-3 top-0 h-full w-px bg-gray-800" />
-              {item.items.map((subItem) => (
-                <Link
-                  key={subItem.name}
-                  href={subItem.path}
-                  className={cn(
-                    "flex items-center gap-2 px-4 py-1 text-sm text-gray-400 hover:bg-[#2a2d2e]",
-                    pathname === subItem.path && "bg-[#37373d] text-white",
-                  )}
-                  onClick={() => addTab(subItem.name, subItem.path)}
-                >
-                  {getFileIcon(subItem.name)}
-                  <span className="text-xs">{subItem.name}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
+    <div className="w-60 border-r border-gray-800 bg-[#1e1e1e]">
+      <div className="flex flex-col gap-4 p-4">
+        <Tree contentTree="Portfolio" defaultCollapsed={false}>
+          <Tree contentTree="home.tsx" path="/" />
+          <Tree contentTree="about.tsx" path="/about" />
+          <Tree contentTree="contact.tsx" path="/contact" />
+          <Tree contentTree="projects.tsx" path="/projects" />
+          <Tree contentTree="work-experience.tsx" path="/work-experience" />
+        </Tree>
+
+        <Tree contentTree="Other Cool Stuff" defaultCollapsed={false}>
+          <Tree contentTree="coding-stats.tsx" path="/coding-stats" />
+          <Tree contentTree="guest-book.tsx" path="/guest-book" />
+        </Tree>
       </div>
     </div>
   );

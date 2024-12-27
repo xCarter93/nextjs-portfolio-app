@@ -32,6 +32,9 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const commonStyles =
+    "overflow-hidden rounded-lg border border-gray-800 bg-[#1e1e1e] shadow-2xl";
+
   if (!mounted) {
     return (
       <div
@@ -39,7 +42,7 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
           width: size.width,
           height: size.height,
         }}
-        className="overflow-hidden rounded-lg border border-gray-800 bg-[#1e1e1e] shadow-2xl"
+        className={commonStyles}
       >
         {children}
       </div>
@@ -75,7 +78,7 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
           height: ref.offsetHeight,
         });
       }}
-      className="overflow-hidden rounded-lg border border-gray-800 bg-[#1e1e1e] shadow-2xl"
+      className={commonStyles}
     >
       {children}
     </Rnd>

@@ -162,7 +162,7 @@ const ParticlesBackground = ({
 
   return (
     <div
-      className="pointer-events-none absolute left-0 top-0 h-dvh w-dvw"
+      className="pointer-events-none absolute inset-0 left-0 top-0 h-dvh w-dvw bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:35px_34px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,#000_100%)]"
       ref={canvasContainerRef}
       aria-hidden="true"
     >
