@@ -14,7 +14,7 @@ export function IDELayout({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
+    <div className="flex min-h-screen w-screen items-center justify-center overflow-hidden p-0 md:p-4">
       <DraggableWindow>
         {/* Title bar */}
         <div className="handle flex h-8 cursor-move items-center border-b border-gray-800 bg-[#1f1f1f] px-3">
@@ -33,10 +33,12 @@ export function IDELayout({ children }: { children: React.ReactNode }) {
           {mounted && (
             <>
               <Sidebar />
-              <div className="flex flex-1 flex-col">
+              <div className="flex w-full flex-1 flex-col">
                 <Tabs />
                 <div className="flex h-full flex-1 overflow-y-auto bg-gray-800">
-                  <main className="w-full">{children}</main>
+                  <main className="w-full max-w-full overflow-x-hidden px-4">
+                    {children}
+                  </main>
                 </div>
               </div>
             </>

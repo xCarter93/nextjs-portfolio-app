@@ -46,16 +46,16 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
   }, []);
 
   const commonStyles = cn(
-    "overflow-hidden border border-gray-800 bg-[#1e1e1e] shadow-2xl",
-    isLargeScreen ? "rounded-lg" : "",
+    "overflow-hidden bg-[#1e1e1e] shadow-2xl",
+    isLargeScreen ? "rounded-lg border border-gray-800" : "",
   );
 
   if (!mounted) {
     return (
       <div
         style={{
-          width: size.width,
-          height: size.height,
+          width: isLargeScreen ? size.width : "100vw",
+          height: isLargeScreen ? size.height : "100vh",
         }}
         className={commonStyles}
       >
@@ -68,11 +68,13 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
     return (
       <div
         style={{
-          width: size.width,
-          height: size.height,
+          width: "100vw",
+          height: "100vh",
           position: "fixed",
           top: 0,
           left: 0,
+          right: 0,
+          bottom: 0,
         }}
         className={commonStyles}
       >
@@ -90,7 +92,7 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
         height: size.height,
       }}
       size={size}
-      minWidth={Math.min(1000, window.innerWidth - 256)}
+      minWidth={Math.min(800, window.innerWidth - 64)}
       minHeight={600}
       bounds="parent"
       dragHandleClassName="handle"
