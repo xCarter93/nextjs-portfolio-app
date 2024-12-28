@@ -30,7 +30,7 @@ export function Tree({
 
   const getFileIcon = (fileName: string) => {
     if (fileName.endsWith(".tsx")) {
-      return <SiReact size={14} className="text-[#61DAFB]" />;
+      return <SiReact size={14} className="shrink-0 text-[#61DAFB]" />;
     }
     return null;
   };
@@ -41,7 +41,7 @@ export function Tree({
         {hasChildren && (
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="flex h-4 w-4 items-center justify-center rounded hover:bg-gray-700"
+            className="flex h-4 w-4 shrink-0 items-center justify-center rounded hover:bg-gray-700"
           >
             <ChevronRight
               className={`h-3 w-3 transition-transform ${
@@ -54,13 +54,13 @@ export function Tree({
           <Link
             href={path}
             className={cn(
-              "ml-4 flex items-center gap-2 text-sm text-gray-400 hover:text-gray-300",
+              "ml-4 flex min-w-0 items-center gap-2 text-sm text-gray-400 hover:text-gray-300",
               pathname === path && "text-white",
             )}
             onClick={() => path && addTab(contentTree, path)}
           >
             {getFileIcon(contentTree)}
-            {contentTree}
+            <span className="truncate">{contentTree}</span>
           </Link>
         ) : (
           <span className="text-sm text-gray-400">{contentTree}</span>

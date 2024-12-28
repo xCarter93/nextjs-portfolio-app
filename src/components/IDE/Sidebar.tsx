@@ -4,8 +4,8 @@ import { Tree } from "./recursive-tree";
 
 export function Sidebar() {
   return (
-    <div className="w-60 border-r border-gray-800 bg-[#1e1e1e]">
-      <div className="flex flex-col gap-4 p-4">
+    <div className="flex h-full w-60 shrink-0 flex-col overflow-hidden border-r border-gray-800 bg-[#1e1e1e]">
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4">
         <Tree contentTree="Portfolio" defaultCollapsed={false}>
           <Tree contentTree="home.tsx" path="/" />
           <Tree contentTree="about.tsx" path="/about" />
