@@ -5,6 +5,8 @@ import { TabsProvider } from "@/contexts/TabsContext";
 import { IDELayout } from "@/components/IDE/IDELayout";
 import ParticlesBackground from "@/components/Background/ParticlesBackground";
 import { ClerkProvider } from "@clerk/nextjs";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -27,7 +29,11 @@ export default function RootLayout({
         <ParticlesBackground />
         <ClerkProvider>
           <TabsProvider>
-            <IDELayout>{children}</IDELayout>
+            <IDELayout>
+              {children}
+              <SpeedInsights />
+              <Analytics />
+            </IDELayout>
           </TabsProvider>
         </ClerkProvider>
       </body>
