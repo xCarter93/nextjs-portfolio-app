@@ -2,6 +2,7 @@
 
 import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 interface DraggableWindowProps {
   children: React.ReactNode;
@@ -9,6 +10,7 @@ interface DraggableWindowProps {
 
 export function DraggableWindow({ children }: DraggableWindowProps) {
   const [mounted, setMounted] = useState(false);
+  const [isLargeScreen, setIsLargeScreen] = useState(true);
   const [size, setSize] = useState({
     width: 1400,
     height: 800,
@@ -17,14 +19,25 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
   useEffect(() => {
     setMounted(true);
     const handleResize = () => {
-      const padding = 256;
-      const maxWidth = Math.min(window.innerWidth - padding, 1400);
-      const maxHeight = Math.min(window.innerHeight - 64, 800);
+      const isLg = window.innerWidth >= 1024; // lg breakpoint
+      setIsLargeScreen(isLg);
 
-      setSize({
-        width: maxWidth,
-        height: maxHeight,
-      });
+      if (isLg) {
+        const padding = 256;
+        const maxWidth = Math.min(window.innerWidth - padding, 1400);
+        const maxHeight = Math.min(window.innerHeight - 64, 800);
+
+        setSize({
+          width: maxWidth,
+          height: maxHeight,
+        });
+      } else {
+        // Full screen for mobile
+        setSize({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
     };
 
     handleResize();
@@ -32,8 +45,10 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const commonStyles =
-    "overflow-hidden rounded-lg border border-gray-800 bg-[#1e1e1e] shadow-2xl";
+  const commonStyles = cn(
+    "overflow-hidden border border-gray-800 bg-[#1e1e1e] shadow-2xl",
+    isLargeScreen ? "rounded-lg" : "",
+  );
 
   if (!mounted) {
     return (
@@ -41,6 +56,23 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
         style={{
           width: size.width,
           height: size.height,
+        }}
+        className={commonStyles}
+      >
+        {children}
+      </div>
+    );
+  }
+
+  if (!isLargeScreen) {
+    return (
+      <div
+        style={{
+          width: size.width,
+          height: size.height,
+          position: "fixed",
+          top: 0,
+          left: 0,
         }}
         className={commonStyles}
       >
