@@ -1,5 +1,3 @@
-"use client";
-
 import { Tree } from "./recursive-tree";
 
 export function Sidebar() {
