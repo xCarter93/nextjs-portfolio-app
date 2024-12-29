@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { SiReact } from "react-icons/si";
+import { SiTypescript } from "react-icons/si";
 import Link from "next/link";
 import { useTabsContext } from "@/contexts/TabsContext";
 import { usePathname } from "next/navigation";
@@ -29,8 +29,8 @@ export function Tree({
   const pathname = usePathname();
 
   const getFileIcon = (fileName: string) => {
-    if (fileName.endsWith(".tsx")) {
-      return <SiReact size={14} className="shrink-0 text-[#61DAFB]" />;
+    if (fileName.endsWith(".ts")) {
+      return <SiTypescript size={14} className="shrink-0 text-[#2E79C8]" />;
     }
     return null;
   };
@@ -67,7 +67,7 @@ export function Tree({
         )}
       </div>
       {hasChildren && !isCollapsed && (
-        <div className="relative ml-2 border-l border-gray-800">{children}</div>
+        <div className="relative ml-2 border-l border-teal-200">{children}</div>
       )}
     </div>
   );

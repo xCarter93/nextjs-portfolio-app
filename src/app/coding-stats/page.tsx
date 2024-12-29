@@ -1,5 +1,3 @@
-"use client";
-
 export default function CodingStatsPage() {
   return (
     <div className="flex h-full w-full items-center justify-center overflow-auto bg-gray-800 p-4">

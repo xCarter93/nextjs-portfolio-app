@@ -1,5 +1,3 @@
-"use client";
-
 const workHistory = [
   {
     period: "Feb 2016 - Apr 2017",
