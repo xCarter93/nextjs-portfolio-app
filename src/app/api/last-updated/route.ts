@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server";
-import { exec } from "child_process";
-import { promisify } from "util";
 
-const execAsync = promisify(exec);
+// This will be set at build time
+const BUILD_DATE = new Date().toISOString();
 
 export async function GET() {
   try {
-    // Get the last commit date
-    const { stdout } = await execAsync("git log -1 --format=%cd");
-    const date = new Date(stdout);
+    const date = new Date(BUILD_DATE);
 
     // Format the date to a readable string
     const formattedDate = date.toLocaleDateString("en-US", {
