@@ -48,6 +48,7 @@ export function Footer() {
   return (
     <div className="fixed bottom-0 left-0 right-0 flex h-6 items-center justify-between border-t border-gray-800 bg-[#1f1f1f] px-3 text-[11px] text-gray-400">
       <div className="flex items-center gap-3">
+        <Image src="/PC_Favicon.png" alt="PC Logo" width={16} height={16} />
         <Link
           href="https://github.com/xCarter93"
           target="_blank"
