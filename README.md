@@ -81,7 +81,7 @@ CLERK_SECRET_KEY="your_clerk_secret_key"
 
 ## Project Structure
 
-\`\`\`
+```bash
 src/
 ├── app/ # Next.js 14 app directory and pages
 │ ├── api/ # API routes
@@ -95,7 +95,7 @@ src/
 ├── lib/ # Utility functions and shared logic
 ├── store/ # State management
 └── types/ # TypeScript type definitions
-\`\`\`
+```
 
 ## Key Components
 
