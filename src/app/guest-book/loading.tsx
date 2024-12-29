@@ -16,10 +16,10 @@ export default function Loading() {
               <div className="skeleton h-6 w-full rounded" />
             </div>
             <div className="hidden lg:block">:</div>
-            <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between">
+            <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between lg:gap-8">
               <div
                 className="skeleton h-6 rounded"
-                style={{ width: getRandomWidth(10, 100) }}
+                style={{ width: getRandomWidth(10, 85) }}
               />
               <div className="skeleton h-6 w-[180px] rounded" />
             </div>
