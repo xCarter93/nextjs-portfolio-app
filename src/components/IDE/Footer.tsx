@@ -1,6 +1,6 @@
 "use client";
 
-import { GitBranchIcon, Terminal, Clock } from "lucide-react";
+import { GitBranchIcon, Terminal } from "lucide-react";
 import { SiSalesforce, SiLinkedin } from "react-icons/si";
 import Link from "next/link";
 import Image from "next/image";
@@ -28,9 +28,8 @@ function LastUpdated() {
   if (!lastUpdated) return null;
 
   return (
-    <div className="flex items-center gap-1" title="Last Updated">
-      <Clock size={12} />
-      <span>{lastUpdated}</span>
+    <div className="flex items-center gap-1">
+      <span>Last Updated: {lastUpdated}</span>
     </div>
   );
 }
