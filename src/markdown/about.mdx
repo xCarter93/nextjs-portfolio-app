@@ -13,6 +13,7 @@ interface Developer {
   currentCompany: string;
   skills: string[];
   certifications: Certification[];
+  yearsOfExperience: number;
 }
 
 // Personal Information
@@ -21,7 +22,17 @@ const me: Developer = {
   role: "Senior Sales Systems Analyst",
   location: "Boston, MA",
   currentCompany: "Datadog",
-  skills: ["React/Next.js", "TypeScript", "Salesforce", "Node.js"],
+  yearsOfExperience: 8,
+  skills: [
+    "React/Next.js",
+    "TypeScript",
+    "Salesforce Development",
+    "Node.js",
+    "Process Automation",
+    "Team Leadership",
+    "Project Management",
+    "System Integration",
+  ],
   certifications: [
     {
       title: "Salesforce Certified Administrator",
@@ -44,30 +55,5 @@ const me: Developer = {
       url: "https://trailhead.salesforce.com/en/credentials/javascriptdeveloperi",
     },
   ],
-};
-
-// Tech Stack Overview
-const technologies = {
-  frontend: {
-    frameworks: ["React", "Next.js", "TypeScript"],
-    styling: ["Tailwind CSS", "CSS3", "Sass"],
-    state: ["Redux", "React Query", "Zustand"],
-  },
-  backend: {
-    runtime: "Node.js",
-    frameworks: ["Express", "NestJS"],
-    databases: ["PostgreSQL", "MongoDB", "Redis"],
-    api: ["REST", "GraphQL", "tRPC"],
-  },
-  cloud: {
-    providers: ["AWS", "Vercel", "Digital Ocean"],
-    services: ["EC2", "S3", "Lambda", "RDS"],
-    cicd: ["GitHub Actions", "Jenkins", "Docker"],
-  },
-  salesforce: {
-    development: ["Apex", "SOQL", "LWC"],
-    integration: ["APIs", "Middleware", "SSO"],
-    admin: ["Security", "Workflows", "Process Builder"],
-  },
 };
 ```

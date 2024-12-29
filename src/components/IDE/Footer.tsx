@@ -1,12 +1,39 @@
 "use client";
 
-import { GitBranchIcon, Terminal } from "lucide-react";
+import { GitBranchIcon, Terminal, Clock } from "lucide-react";
 import { SiSalesforce, SiLinkedin } from "react-icons/si";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTabsContext } from "@/contexts/TabsContext";
 import { useTerminalStore } from "@/store/useTerminalStore";
+import { useState, useEffect } from "react";
+
+function LastUpdated() {
+  const [lastUpdated, setLastUpdated] = useState<string>("");
+
+  useEffect(() => {
+    async function fetchLastUpdated() {
+      try {
+        const response = await fetch("/api/last-updated");
+        const data = await response.json();
+        setLastUpdated(data.lastUpdated);
+      } catch (error) {
+        console.error("Error fetching last updated time:", error);
+      }
+    }
+    fetchLastUpdated();
+  }, []);
+
+  if (!lastUpdated) return null;
+
+  return (
+    <div className="flex items-center gap-1" title="Last Updated">
+      <Clock size={12} />
+      <span>{lastUpdated}</span>
+    </div>
+  );
+}
 
 export function Footer() {
   const router = useRouter();
@@ -61,6 +88,7 @@ export function Footer() {
             className="h-4 w-auto"
           />
         </Link>
+        <LastUpdated />
       </div>
       <div className="flex items-center gap-3">
         <button
