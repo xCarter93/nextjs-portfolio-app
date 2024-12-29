@@ -4,9 +4,7 @@ import LanguagesChart from "@/components/WakaTime/LanguagesChart";
 import { getActivityData, getLanguagesData } from "@/lib/wakatime";
 
 function ChartSkeleton() {
-  return (
-    <div className="skeleton h-[500px] w-full rounded-lg bg-gray-800/50" />
-  );
+  return <div className="skeleton h-[40vh] w-full rounded-lg bg-gray-800/50" />;
 }
 
 export default async function CodingStatsPage() {
@@ -16,8 +14,8 @@ export default async function CodingStatsPage() {
   ]);
 
   return (
-    <div className="flex h-full w-full items-center justify-center overflow-auto bg-gray-800 p-4">
-      <div className="flex w-full max-w-[1600px] flex-col gap-4 xl:flex-row">
+    <div className="flex min-h-full w-full items-center justify-center overflow-auto bg-gray-800">
+      <div className="flex w-full max-w-[1600px] flex-col gap-4 py-4 xl:h-full xl:flex-row">
         <Suspense fallback={<ChartSkeleton />}>
           <CodingChart data={activityData} />
         </Suspense>

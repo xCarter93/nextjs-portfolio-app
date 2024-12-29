@@ -46,7 +46,9 @@ export function IDELayout({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* Footer */}
-        <Footer />
+        <div className="hidden sm:block">
+          <Footer />
+        </div>
       </DraggableWindow>
     </div>
   );
