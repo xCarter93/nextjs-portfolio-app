@@ -83,14 +83,18 @@ CLERK_SECRET_KEY="your_clerk_secret_key"
 
 \`\`\`
 src/
-├── app/ # Next.js 14 app directory
-├── components/  
+├── app/ # Next.js 14 app directory and pages
+│ ├── api/ # API routes
+│ ├── (routes)/ # App routes and pages
+│ └── layout.tsx # Root layout
+├── components/ # React components
 │ ├── Background/ # Background effects
-│ ├── IDE/ # IDE-style components
-│ └── Terminal/ # Terminal components
-├── contexts/ # React contexts
-├── lib/ # Utility functions
-└── types/ # TypeScript types
+│ ├── IDE/ # IDE-style UI components
+│ └── Terminal/ # Terminal interface
+├── contexts/ # React context providers
+├── lib/ # Utility functions and shared logic
+├── store/ # State management
+└── types/ # TypeScript type definitions
 \`\`\`
 
 ## Key Components
