@@ -1,12 +1,11 @@
 "use client";
 
-import { GitBranchIcon, Terminal } from "lucide-react";
+import { GitBranchIcon } from "lucide-react";
 import { SiSalesforce, SiLinkedin } from "react-icons/si";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTabsContext } from "@/contexts/TabsContext";
-import { useTerminalStore } from "@/store/useTerminalStore";
 import { useState, useEffect } from "react";
 
 function LastUpdated() {
@@ -37,7 +36,6 @@ function LastUpdated() {
 export function Footer() {
   const router = useRouter();
   const { addTab } = useTabsContext();
-  const toggle = useTerminalStore((state) => state.toggle);
 
   const handleStatsClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -91,13 +89,6 @@ export function Footer() {
         <LastUpdated />
       </div>
       <div className="flex items-center gap-3">
-        <button
-          onClick={toggle}
-          className="flex items-center hover:text-gray-300"
-          title="Toggle contact terminal"
-        >
-          <Terminal size={14} />
-        </button>
         <span>TypeScript</span>
         <span>UTF-8</span>
         <span>LF</span>
