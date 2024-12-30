@@ -22,7 +22,7 @@ export default function ContactPage() {
         }`}
         style={{ height: "300px", marginLeft: "240px" }}
       >
-        <div className="h-full px-4">
+        <div className="h-full">
           <ContactTerminal />
         </div>
       </div>

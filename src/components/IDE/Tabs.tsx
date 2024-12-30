@@ -14,6 +14,7 @@ const NAVIGATION_ITEMS = [
   { name: "work-experience.tsx", path: "/work-experience" },
   { name: "coding-stats.tsx", path: "/coding-stats" },
   { name: "guest-book.tsx", path: "/guest-book" },
+  { name: "git-history.tsx", path: "/git-history" },
 ];
 
 export function Tabs() {
