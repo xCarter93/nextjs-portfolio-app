@@ -133,3 +133,136 @@ MIT License - feel free to use this for your own portfolio!
 ---
 
 [Visit Live Site](https://patrickcarter.dev) | [GitHub](https://github.com/xCarter93)
+
+## Architecture
+
+```mermaid
+flowchart TB
+    Client[Client Browser]
+    Next[Next.js App Router]
+    API[API Routes]
+    DB[(Postgres DB)]
+    GH[GitHub API]
+    WK[WakaTime API]
+
+    Client --> Next
+    Next --> API
+    API --> DB
+    API --> GH
+    API --> WK
+
+    subgraph Frontend
+        Next --> Pages[Pages]
+        Next --> Components[Components]
+        Components --> IDE[IDE Components]
+        Components --> Charts[Data Visualization]
+        Components --> UI[UI Components]
+    end
+
+    subgraph State Management
+        Components --> Zustand[Zustand Store]
+        Components --> Context[React Context]
+    end
+
+    subgraph Data Sources
+        DB --> GuestBook[Guest Book Entries]
+        GH --> GitHistory[Commit History]
+        WK --> CodingStats[Coding Statistics]
+    end
+
+    style Frontend fill:#2d2d2d,stroke:#1e1e1e
+    style State Management fill:#2d2d2d,stroke:#1e1e1e
+    style Data Sources fill:#2d2d2d,stroke:#1e1e1e
+```
+
+## API Flow
+
+```mermaid
+sequenceDiagram
+    participant Client as Browser
+    participant Next as Next.js App
+    participant API as API Routes
+    participant DB as PostgreSQL
+    participant GH as GitHub API
+    participant WK as WakaTime API
+
+    Client->>Next: Visit Page
+
+    alt Coding Stats Page
+        Next->>API: Request Coding Stats
+        API->>WK: Fetch WakaTime Data
+        WK-->>API: Return Stats
+        API-->>Next: Return Processed Stats
+        Next-->>Client: Render Charts
+    end
+
+    alt Git History Page
+        Next->>API: Request Commit History
+        API->>GH: Fetch Repository Commits
+        GH-->>API: Return Commits
+        API-->>Next: Return Formatted History
+        Next-->>Client: Render AG Grid Table
+    end
+
+    alt Guest Book Page
+        Next->>API: Load Guest Book Entries
+        API->>DB: Query Entries
+        DB-->>API: Return Entries
+        API-->>Next: Return Formatted Entries
+        Next-->>Client: Render Guest Book
+
+        Client->>API: Submit New Entry
+        API->>DB: Insert Entry
+        DB-->>API: Confirm Insert
+        API-->>Client: Update UI
+    end
+```
+
+## Features
+
+- VS Code-themed UI with working tabs and navigation
+- Interactive components mimicking IDE functionality
+- Real-time coding statistics visualization
+- Git commit history tracking
+- Guest book functionality
+- Responsive design
+- Dark mode optimized
+
+## Tech Stack
+
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Zustand
+- AG Grid
+- Chart.js
+- PostgreSQL
+- Prisma ORM
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up environment variables (see `.env.example`)
+4. Run the development server: `npm run dev`
+5. Open [http://localhost:3000](http://localhost:3000)
+
+## Environment Variables
+
+Create a `.env.local` file with the following variables:
+
+```env
+POSTGRES_URL=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL_NO_SSL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
+GITHUB_PAT=
+```
+
+## Deployment
+
+The application is deployed on Vercel and uses Vercel Postgres for the database.
