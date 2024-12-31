@@ -5,6 +5,11 @@ import { Sidebar } from "./Sidebar";
 import { Tabs } from "./Tabs";
 import { Footer } from "./Footer";
 import { DraggableWindow } from "./DraggableWindow";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export function IDELayout({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -29,19 +34,29 @@ export function IDELayout({ children }: { children: React.ReactNode }) {
         </div>
 
         {/* IDE Content */}
-        <div className="flex h-[calc(100%-3.5rem)]">
+        <div className="h-[calc(100%-3.5rem)]">
           {mounted && (
-            <>
-              <Sidebar />
-              <div className="flex w-full flex-1 flex-col">
-                <Tabs />
-                <div className="flex h-full flex-1 overflow-y-auto bg-gray-800">
-                  <main className="w-full max-w-full overflow-x-hidden px-4">
-                    {children}
-                  </main>
+            <ResizablePanelGroup direction="horizontal">
+              <ResizablePanel
+                defaultSize={20}
+                minSize={15}
+                maxSize={30}
+                className="hidden md:block"
+              >
+                <Sidebar />
+              </ResizablePanel>
+              <ResizableHandle withHandle={false} />
+              <ResizablePanel defaultSize={80}>
+                <div className="flex h-full flex-col">
+                  <Tabs />
+                  <div className="flex flex-1 overflow-y-auto bg-gray-800">
+                    <main className="w-full max-w-full overflow-x-hidden px-4">
+                      {children}
+                    </main>
+                  </div>
                 </div>
-              </div>
-            </>
+              </ResizablePanel>
+            </ResizablePanelGroup>
           )}
         </div>
 
