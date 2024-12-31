@@ -1,10 +1,20 @@
-import { Suspense } from "react";
+import { Metadata } from "next";
 import CodingChart from "@/components/WakaTime/CodingChart";
 import LanguagesChart from "@/components/WakaTime/LanguagesChart";
+import { ContributionGraph } from "@/components/Git/ContributionGraph";
+import { GitHubProfile } from "@/components/Git/GitHubProfile";
 import { getActivityData, getLanguagesData } from "@/lib/wakatime";
+import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: "Coding Stats | Patrick Carter",
+  description: "View my coding statistics and activity",
+};
 
 function ChartSkeleton() {
-  return <div className="skeleton h-[40vh] w-full rounded-lg bg-gray-800/50" />;
+  return (
+    <div className="h-[40vh] w-full animate-pulse rounded-lg bg-gray-800/50" />
+  );
 }
 
 export default async function CodingStatsPage() {
@@ -14,14 +24,25 @@ export default async function CodingStatsPage() {
   ]);
 
   return (
-    <div className="flex min-h-full w-full items-center justify-center overflow-auto bg-gray-800">
-      <div className="flex w-full max-w-[1600px] flex-col gap-4 py-4 xl:h-full xl:flex-row">
-        <Suspense fallback={<ChartSkeleton />}>
-          <CodingChart data={activityData} />
-        </Suspense>
-        <Suspense fallback={<ChartSkeleton />}>
-          <LanguagesChart data={languagesData} />
-        </Suspense>
+    <div className="py-8">
+      <div className="space-y-8">
+        <section className="mx-auto max-w-4xl rounded-lg border border-gray-700 bg-gray-900/50 p-6">
+          <GitHubProfile />
+        </section>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          <Suspense fallback={<ChartSkeleton />}>
+            <CodingChart data={activityData} />
+          </Suspense>
+          <Suspense fallback={<ChartSkeleton />}>
+            <LanguagesChart data={languagesData} />
+          </Suspense>
+        </div>
+        <section className="mx-auto max-w-4xl">
+          <h2 className="mb-4 text-center text-xl font-semibold text-white">
+            GitHub Contributions
+          </h2>
+          <ContributionGraph />
+        </section>
       </div>
     </div>
   );

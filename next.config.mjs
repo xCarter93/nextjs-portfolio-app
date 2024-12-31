@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "wakatime.com",
         pathname: "/badge/**",
       },
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        pathname: "/**",
+      },
     ],
   },
 };
