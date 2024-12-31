@@ -13,6 +13,9 @@ interface GitHubProfile {
   followers: {
     totalCount: number;
   };
+  following: {
+    totalCount: number;
+  };
 }
 
 export function GitHubProfile() {
@@ -38,7 +41,7 @@ export function GitHubProfile() {
     return (
       <div className="flex animate-pulse items-center justify-center gap-4">
         <div className="h-12 w-12 rounded-full bg-gray-700" />
-        <div className="h-6 w-72 rounded bg-gray-700" />
+        <div className="h-6 w-72 rounded bg-gray-700 sm:w-96" />
       </div>
     );
   }
@@ -56,12 +59,16 @@ export function GitHubProfile() {
         height={48}
         className="rounded-full"
       />
-      <div className="flex items-center gap-4 text-lg text-gray-200">
+      <div className="flex items-center gap-4 text-base text-gray-200 md:text-lg">
         <span>{profile.login}</span>
-        <div className="h-6 w-px bg-gray-700" />
-        <span>{profile.repositories.totalCount} repositories</span>
-        <div className="h-6 w-px bg-gray-700" />
-        <span>{profile.followers.totalCount} followers</span>
+        <div className="hidden sm:flex sm:items-center sm:gap-4">
+          <div className="h-6 w-0.5 bg-gray-600" />
+          <span>{profile.repositories.totalCount} repositories</span>
+          <div className="h-6 w-0.5 bg-gray-600" />
+          <span>{profile.followers.totalCount} followers</span>
+          <div className="h-6 w-0.5 bg-gray-600" />
+          <span>{profile.following.totalCount} following</span>
+        </div>
       </div>
     </div>
   );

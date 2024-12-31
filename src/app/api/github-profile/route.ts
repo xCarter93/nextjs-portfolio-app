@@ -12,6 +12,9 @@ query($userName:String!) {
     followers {
       totalCount
     }
+    following {
+      totalCount
+    }
   }
 }
 `;
