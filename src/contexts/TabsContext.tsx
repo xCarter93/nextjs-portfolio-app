@@ -1,47 +1,60 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
-import { SVGProps } from "react";
 import { useRouter } from "next/navigation";
+import { createContext, useContext, useState, useEffect } from "react";
+import { SVGProps } from "react";
 
-type Tab = {
+interface Tab {
   name: string;
   path: string;
-  icon?: React.ComponentType<SVGProps<SVGSVGElement>>;
-};
+  icon: React.ComponentType<SVGProps<SVGSVGElement>>;
+}
 
-type TabsContextType = {
+interface TabsContextType {
   openTabs: Tab[];
   activeTab: string | null;
   addTab: (tab: Tab) => void;
   removeTab: (path: string) => void;
   setActiveTab: (path: string) => void;
-};
+}
 
 const TabsContext = createContext<TabsContextType | undefined>(undefined);
 
 export function TabsProvider({ children }: { children: React.ReactNode }) {
   const [openTabs, setOpenTabs] = useState<Tab[]>([]);
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [pendingNavigation, setPendingNavigation] = useState<string | null>(
+    null,
+  );
   const router = useRouter();
+
+  useEffect(() => {
+    if (pendingNavigation !== null) {
+      router.push(pendingNavigation);
+      setPendingNavigation(null);
+    }
+  }, [pendingNavigation, router]);
 
   const addTab = (tab: Tab) => {
     if (!openTabs.some((t) => t.path === tab.path)) {
-      setOpenTabs([...openTabs, tab]);
+      setOpenTabs((prev) => [...prev, tab]);
     }
     setActiveTab(tab.path);
   };
 
   const removeTab = (path: string) => {
-    const newTabs = openTabs.filter((tab) => tab.path !== path);
-    setOpenTabs(newTabs);
-    if (activeTab === path) {
-      const newActiveTab = newTabs[newTabs.length - 1]?.path || null;
-      setActiveTab(newActiveTab);
-      if (newActiveTab) {
-        router.push(newActiveTab);
+    setOpenTabs((prev) => {
+      const newTabs = prev.filter((tab) => tab.path !== path);
+      if (newTabs.length === 0) {
+        setPendingNavigation("/");
+      } else if (activeTab === path) {
+        // If we're closing the active tab, activate the last remaining tab
+        const lastTab = newTabs[newTabs.length - 1];
+        setActiveTab(lastTab.path);
+        setPendingNavigation(lastTab.path);
       }
-    }
+      return newTabs;
+    });
   };
 
   return (
