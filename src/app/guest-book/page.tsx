@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { Suspense } from "react";
 import { SignIn, Submit } from "./_components/buttons";
 import { unstable_cache } from "next/cache";
 import { currentUser } from "@clerk/nextjs/server";
@@ -23,29 +22,6 @@ const getPosts = unstable_cache(
   ["guestBookEntries"],
   { revalidate: 3600, tags: ["guestBookEntries"] },
 );
-
-function GuestBookSkeleton() {
-  return (
-    <ul className="flex flex-col gap-y-2 divide-y divide-[#898989]/20 p-4 text-sm lg:divide-y-0">
-      {Array.from({ length: 10 }).map((_, index) => (
-        <li
-          key={index}
-          className="group flex flex-col gap-1 py-1 lg:flex-row lg:items-center lg:gap-2 lg:border-y-0 lg:py-0"
-        >
-          <div className="h-6 w-36 animate-pulse rounded bg-gray-700/50 lg:flex-none" />
-          <div className="block lg:hidden">
-            <div className="h-6 w-full animate-pulse rounded bg-gray-700/50" />
-          </div>
-          <div className="hidden lg:block">:</div>
-          <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between lg:gap-8">
-            <div className="h-6 w-2/3 animate-pulse rounded bg-gray-700/50" />
-            <div className="h-6 w-[180px] animate-pulse rounded bg-gray-700/50" />
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 async function GuestBookForm() {
   const user = await currentUser();
@@ -114,14 +90,11 @@ async function GuestBookEntries() {
   );
 }
 
-export default function GuestBook() {
+export default async function GuestBook() {
   return (
     <>
       <GuestBookForm />
-
-      <Suspense fallback={<GuestBookSkeleton />}>
-        <GuestBookEntries />
-      </Suspense>
+      <GuestBookEntries />
     </>
   );
 }
