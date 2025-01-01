@@ -1,8 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { getGitHubContributions } from "@/lib/actions";
-
 interface ContributionDay {
   contributionCount: number;
   date: string;
@@ -17,46 +12,11 @@ interface ContributionCalendar {
   weeks: ContributionWeek[];
 }
 
-export function ContributionGraph() {
-  const [contributions, setContributions] =
-    useState<ContributionCalendar | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+interface ContributionGraphProps {
+  contributions: ContributionCalendar;
+}
 
-  useEffect(() => {
-    async function fetchContributions() {
-      try {
-        const data = await getGitHubContributions();
-        setContributions(data);
-      } catch (error) {
-        console.error("Error fetching contributions:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchContributions();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="space-y-2">
-        <div className="h-4 w-48 animate-pulse rounded bg-gray-700" />
-        <div className="grid grid-cols-7 gap-1">
-          {[...Array(35)].map((_, i) => (
-            <div
-              key={i}
-              className="h-4 w-4 animate-pulse rounded bg-gray-700/50"
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  if (!contributions) {
-    return <div>Failed to load contribution data</div>;
-  }
-
+export function ContributionGraph({ contributions }: ContributionGraphProps) {
   const getContributionColor = (count: number) => {
     if (count === 0) return "bg-gray-900";
     if (count <= 3) return "bg-green-900/90";
