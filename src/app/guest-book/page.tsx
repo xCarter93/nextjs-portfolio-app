@@ -117,11 +117,8 @@ async function GuestBookEntries() {
 export default function GuestBook() {
   return (
     <>
-      <Suspense
-        fallback={<div className="h-16 animate-pulse rounded bg-gray-700/50" />}
-      >
-        <GuestBookForm />
-      </Suspense>
+      <GuestBookForm />
+
       <Suspense fallback={<GuestBookSkeleton />}>
         <GuestBookEntries />
       </Suspense>
