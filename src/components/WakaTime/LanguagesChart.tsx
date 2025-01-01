@@ -41,7 +41,7 @@ export default function LanguagesChart({ data }: { data: LanguageData[] }) {
   const sortedData = processedData.sort((a, b) => b.percent - a.percent);
 
   return (
-    <div className="h-[40vh] w-full rounded-lg bg-gray-800">
+    <div className="h-[30vh] w-full rounded-lg bg-gray-800">
       <h2 className="mb-4 text-center text-lg font-medium text-gray-200">
         Languages Used (Last 30 Days)
       </h2>

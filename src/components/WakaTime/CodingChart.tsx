@@ -18,7 +18,7 @@ interface ChartData {
 
 export default function CodingChart({ data }: { data: ChartData[] }) {
   return (
-    <div className="h-[40vh] w-full rounded-lg bg-gray-800">
+    <div className="h-[30vh] w-full rounded-lg bg-gray-800">
       <h2 className="mb-4 text-center text-lg font-medium text-gray-200">
         Coding Activity (Last 30 Days)
       </h2>
