@@ -40,6 +40,17 @@ export function HomeContent() {
               wiscaksono.com
             </a>
           </code>
+          {" and "}
+          <code className="text-[#18B4C8]">
+            <a
+              href="https://itscrazydev.netlify.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-inherit no-underline"
+            >
+              itscrazydev.netlify.app
+            </a>
+          </code>
         </div>
       </div>
     </div>

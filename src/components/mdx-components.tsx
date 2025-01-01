@@ -33,10 +33,16 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
       </p>
     ),
     code: ({ children }) => (
-      <code className={`${jetbrainsMono.className} font-mono`}>{children}</code>
+      <code
+        className={`${jetbrainsMono.className} whitespace-pre-wrap break-all font-mono`}
+      >
+        {children}
+      </code>
     ),
     pre: ({ children }) => (
-      <pre className={`${jetbrainsMono.className} mb-4 mt-2 rounded-lg`}>
+      <pre
+        className={`${jetbrainsMono.className} mb-4 mt-2 max-w-full overflow-x-auto whitespace-pre-wrap break-all rounded-lg bg-gray-900 p-4`}
+      >
         {children}
       </pre>
     ),

@@ -1,6 +1,4 @@
-```typescript
-// Developer Profile
-interface Certification {
+export const aboutCode = `interface Certification {
   title: string;
   issuedDate: Date;
   url: string;
@@ -55,5 +53,4 @@ const me: Developer = {
       url: "https://trailhead.salesforce.com/en/credentials/javascriptdeveloperi",
     },
   ],
-};
-```
+};`;
