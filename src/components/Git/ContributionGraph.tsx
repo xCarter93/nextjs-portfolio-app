@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getGitHubContributions } from "@/lib/actions";
 
 interface ContributionDay {
   contributionCount: number;
@@ -11,27 +12,28 @@ interface ContributionWeek {
   contributionDays: ContributionDay[];
 }
 
-interface ContributionData {
+interface ContributionCalendar {
   totalContributions: number;
   weeks: ContributionWeek[];
 }
 
 export function ContributionGraph() {
-  const [data, setData] = useState<ContributionData | null>(null);
+  const [contributions, setContributions] =
+    useState<ContributionCalendar | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchContributions() {
       try {
-        const response = await fetch("/api/github-contributions");
-        const data = await response.json();
-        setData(data);
+        const data = await getGitHubContributions();
+        setContributions(data);
       } catch (error) {
         console.error("Error fetching contributions:", error);
       } finally {
         setIsLoading(false);
       }
     }
+
     fetchContributions();
   }, []);
 
@@ -51,7 +53,7 @@ export function ContributionGraph() {
     );
   }
 
-  if (!data) {
+  if (!contributions) {
     return <div>Failed to load contribution data</div>;
   }
 
@@ -66,12 +68,12 @@ export function ContributionGraph() {
   return (
     <div className="flex flex-col items-center space-y-2">
       <div className="text-sm text-gray-400">
-        {data.totalContributions} contributions in the last year
+        {contributions.totalContributions} contributions in the last year
       </div>
       <div className="w-full overflow-x-auto">
         <div className="min-w-max px-4">
           <div className="grid grid-flow-col gap-1">
-            {data.weeks.map((week, weekIndex) => (
+            {contributions.weeks.map((week, weekIndex) => (
               <div key={weekIndex} className="grid grid-rows-7 gap-1">
                 {week.contributionDays.map((day, dayIndex) => (
                   <div

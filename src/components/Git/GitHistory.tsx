@@ -5,6 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 import { ColDef, Theme } from "ag-grid-community";
 import { themeQuartz, colorSchemeDarkBlue } from "ag-grid-community";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
+import { getGitHistory } from "@/lib/actions";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -113,8 +114,7 @@ export function GitHistory() {
   useEffect(() => {
     async function fetchCommits() {
       try {
-        const response = await fetch("/api/git-history");
-        const data = await response.json();
+        const data = await getGitHistory();
         setRowData(data);
       } catch (error) {
         console.error("Error fetching commit history:", error);

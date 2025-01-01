@@ -4,7 +4,6 @@ import { JetBrains_Mono } from "next/font/google";
 import Prism from "prismjs";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-typescript";
-import "prismjs/plugins/line-numbers/prism-line-numbers";
 import { useEffect } from "react";
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] });
@@ -16,12 +15,60 @@ interface StyledCodeProps {
 
 export function StyledCode({ code, language = "json" }: StyledCodeProps) {
   useEffect(() => {
-    Prism.highlightAll();
-  }, [code]);
+    const highlight = () => {
+      Prism.highlightAll();
+      if (language === "json") {
+        // Add custom classes to braces
+        const codeElement = document.querySelector("code.language-json");
+        if (codeElement) {
+          const tokens = Array.from(codeElement.childNodes);
+          // Find first and last curly braces
+          const firstBrace = tokens.find(
+            (token) => (token as Element).textContent === "{",
+          ) as Element;
+          const lastBrace = tokens
+            .slice()
+            .reverse()
+            .find((token) => (token as Element).textContent === "}") as Element;
+
+          if (firstBrace?.classList) firstBrace.classList.add("outer-brace");
+          if (lastBrace?.classList) lastBrace.classList.add("outer-brace");
+
+          // Mark other braces as inner and make URLs clickable
+          tokens.forEach((token) => {
+            const element = token as Element;
+            if (element.textContent === "{" || element.textContent === "}") {
+              if (
+                element.classList &&
+                !element.classList.contains("outer-brace")
+              ) {
+                element.classList.add("inner-brace");
+              }
+            }
+            // Check if token is a URL string
+            if (
+              element.classList?.contains("string") &&
+              element.textContent?.startsWith('"http')
+            ) {
+              const url = element.textContent.slice(1, -1); // Remove quotes
+              const link = document.createElement("a");
+              link.href = url;
+              link.target = "_blank";
+              link.rel = "noopener noreferrer";
+              link.className = "token string url-link";
+              link.textContent = element.textContent;
+              element.parentNode?.replaceChild(link, element);
+            }
+          });
+        }
+      }
+    };
+    highlight();
+  }, [code, language]);
 
   return (
     <div className={`${jetbrainsMono.className} overflow-hidden`}>
-      <pre className="line-numbers rounded-lg p-4 text-sm">
+      <pre className="rounded-lg p-4 text-sm">
         <code className={`language-${language}`}>{code}</code>
       </pre>
       <style jsx global>{`
@@ -29,52 +76,62 @@ export function StyledCode({ code, language = "json" }: StyledCodeProps) {
         .token.prolog,
         .token.doctype,
         .token.cdata {
-          color: #6a9955;
+          color: #7c7c7c;
         }
         .token.punctuation {
-          color: #d4d4d4;
+          color: #e1e1e1;
         }
-        .token.property,
+        .token.property {
+          color: #7dd3fc;
+        }
         .token.keyword,
         .token.tag {
-          color: #569cd6;
+          color: #79b6f2;
         }
         .token.class-name,
         .token.builtin,
         .token.interface {
-          color: #4ec9b0;
+          color: #66d9ef;
         }
         .token.string,
         .token.attr-value {
-          color: #ce9178;
+          color: #d97706;
+        }
+        .url-link {
+          text-decoration: none;
+          transition: opacity 0.2s;
+        }
+        .url-link:hover {
+          opacity: 0.8;
+          text-decoration: underline;
         }
         .token.number {
-          color: #b5cea8;
+          color: #c5e478;
         }
         .token.operator {
-          color: #d4d4d4;
+          color: #e1e1e1;
         }
         .token.boolean {
-          color: #569cd6;
+          color: #79b6f2;
         }
         .token.function {
-          color: #dcdcaa;
+          color: #ffd580;
         }
         .language-typescript .token.primitive,
         .language-typescript .token.builtin,
         .language-typescript .token.keyword {
-          color: #569cd6;
+          color: #79b6f2;
         }
         .language-typescript .token.class-name,
         .language-typescript .token.builtin,
         .language-typescript .token.interface {
-          color: #4ec9b0;
+          color: #66d9ef;
         }
         .language-typescript .token.type-declaration {
-          color: #4ec9b0;
+          color: #66d9ef;
         }
         .language-typescript .token.type {
-          color: #4ec9b0;
+          color: #66d9ef;
         }
         pre[class*="language-"] {
           background: transparent;
@@ -87,44 +144,14 @@ export function StyledCode({ code, language = "json" }: StyledCodeProps) {
           white-space: pre-wrap;
           word-break: break-word;
         }
-        pre[class*="language-"].line-numbers {
-          position: relative;
-          padding-left: 3.8em;
-          counter-reset: linenumber;
+
+        /* Style curly braces */
+        .outer-brace {
+          color: #fde047 !important;
         }
-        .line-numbers .line-numbers-rows {
-          position: absolute;
-          pointer-events: none;
-          top: 1rem;
-          left: 0;
-          width: 3em;
-          border-right: 1px solid #404040;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-          z-index: 1;
-        }
-        .line-numbers-rows > span {
-          display: block;
-          counter-increment: linenumber;
-          height: 1.5em;
-          line-height: 1.5em;
-        }
-        .line-numbers-rows > span:before {
-          content: counter(linenumber);
-          color: #858585;
-          display: block;
-          padding-right: 0.8em;
-          text-align: right;
-        }
-        @media (max-width: 768px) {
-          pre[class*="language-"].line-numbers {
-            padding-left: 1rem;
-          }
-          .line-numbers .line-numbers-rows {
-            display: none;
-          }
+
+        .inner-brace {
+          color: #e879f9 !important;
         }
       `}</style>
     </div>

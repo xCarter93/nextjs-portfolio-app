@@ -7,6 +7,7 @@ import ParticlesBackground from "@/components/Background/ParticlesBackground";
 import { ClerkProvider } from "@clerk/nextjs";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "sonner";
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
               {children}
               <SpeedInsights />
               <Analytics />
+              <Toaster richColors position="top-right" />
             </IDELayout>
           </TabsProvider>
         </ClerkProvider>
