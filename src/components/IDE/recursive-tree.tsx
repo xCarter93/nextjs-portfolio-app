@@ -2,11 +2,18 @@
 
 import React, { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { SiTypescript } from "react-icons/si";
 import Link from "next/link";
 import { useTabsContext } from "@/contexts/TabsContext";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { SkillIconsHtml } from "../Icons/SkillIconsHtml";
+import { SkillIconsTypescript } from "../Icons/SkillIconsTypescript";
+import { VscodeIconsFileTypeLightJson } from "../Icons/VscodeIconsFileTypeLightJson";
+import { VscodeIconsFileTypeCss } from "../Icons/VscodeIconsFileTypeCss";
+import { CatppuccinMarkdown } from "../Icons/CatppuccinMarkdown";
+import { VscodeIconsFileTypeDotenv } from "../Icons/VscodeIconsFileTypeDotenv";
+import { SkillIconsReactDark } from "../Icons/SkillIconsReactDark";
+import { VscodeIconsFileTypeGit } from "../Icons/VscodeIconsFileTypeGit";
 
 interface TreeProps {
   contentTree: string;
@@ -29,8 +36,29 @@ export function Tree({
   const pathname = usePathname();
 
   const getFileIcon = (fileName: string) => {
+    if (fileName.endsWith(".html")) {
+      return <SkillIconsHtml className="h-4 w-4 shrink-0" />;
+    }
     if (fileName.endsWith(".ts")) {
-      return <SiTypescript size={14} className="shrink-0 text-[#2E79C8]" />;
+      return <SkillIconsTypescript className="h-4 w-4 shrink-0" />;
+    }
+    if (fileName.endsWith(".tsx")) {
+      return <SkillIconsReactDark className="h-4 w-4 shrink-0" />;
+    }
+    if (fileName.endsWith(".json")) {
+      return <VscodeIconsFileTypeLightJson className="h-4 w-4 shrink-0" />;
+    }
+    if (fileName.endsWith(".css")) {
+      return <VscodeIconsFileTypeCss className="h-4 w-4 shrink-0" />;
+    }
+    if (fileName.endsWith(".md")) {
+      return <CatppuccinMarkdown className="h-4 w-4 shrink-0" />;
+    }
+    if (fileName.endsWith(".env")) {
+      return <VscodeIconsFileTypeDotenv className="h-4 w-4 shrink-0" />;
+    }
+    if (fileName.endsWith(".git")) {
+      return <VscodeIconsFileTypeGit className="h-4 w-4 shrink-0" />;
     }
     return null;
   };
@@ -57,7 +85,14 @@ export function Tree({
               "ml-4 flex min-w-0 items-center gap-2 text-sm text-gray-400 hover:text-gray-300",
               pathname === path && "text-white",
             )}
-            onClick={() => path && addTab(contentTree, path)}
+            onClick={() =>
+              path &&
+              addTab({
+                name: contentTree,
+                path,
+                icon: getFileIcon(contentTree)?.type,
+              })
+            }
           >
             {getFileIcon(contentTree)}
             <span className="truncate">{contentTree}</span>

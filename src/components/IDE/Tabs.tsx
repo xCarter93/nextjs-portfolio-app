@@ -5,16 +5,40 @@ import { useTabsContext } from "@/contexts/TabsContext";
 import { X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { SkillIconsHtml } from "../Icons/SkillIconsHtml";
+import { SkillIconsTypescript } from "../Icons/SkillIconsTypescript";
+import { VscodeIconsFileTypeLightJson } from "../Icons/VscodeIconsFileTypeLightJson";
+import { VscodeIconsFileTypeCss } from "../Icons/VscodeIconsFileTypeCss";
+import { CatppuccinMarkdown } from "../Icons/CatppuccinMarkdown";
+import { VscodeIconsFileTypeDotenv } from "../Icons/VscodeIconsFileTypeDotenv";
+import { SkillIconsReactDark } from "../Icons/SkillIconsReactDark";
+import { VscodeIconsFileTypeGit } from "../Icons/VscodeIconsFileTypeGit";
 
 const NAVIGATION_ITEMS = [
-  { name: "home.tsx", path: "/" },
-  { name: "about.tsx", path: "/about" },
-  { name: "contact.tsx", path: "/contact" },
-  { name: "projects.tsx", path: "/projects" },
-  { name: "work-experience.tsx", path: "/work-experience" },
-  { name: "coding-stats.tsx", path: "/coding-stats" },
-  { name: "guest-book.tsx", path: "/guest-book" },
-  { name: "git-history.tsx", path: "/git-history" },
+  { name: "home.html", path: "/", icon: SkillIconsHtml },
+  { name: "about.ts", path: "/about", icon: SkillIconsTypescript },
+  {
+    name: "contact.json",
+    path: "/contact",
+    icon: VscodeIconsFileTypeLightJson,
+  },
+  { name: "projects.css", path: "/projects", icon: VscodeIconsFileTypeCss },
+  {
+    name: "work-experience.md",
+    path: "/work-experience",
+    icon: CatppuccinMarkdown,
+  },
+  {
+    name: "coding-stats.env",
+    path: "/coding-stats",
+    icon: VscodeIconsFileTypeDotenv,
+  },
+  { name: "guest-book.tsx", path: "/guest-book", icon: SkillIconsReactDark },
+  {
+    name: "git-history.git",
+    path: "/git-history",
+    icon: VscodeIconsFileTypeGit,
+  },
 ];
 
 export function Tabs() {
@@ -44,8 +68,9 @@ export function Tabs() {
             <Link
               href={tab.path}
               onClick={() => setActiveTab(tab.path)}
-              className="px-3 py-1.5 text-xs hover:bg-gray-800"
+              className="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-gray-800"
             >
+              {tab.icon && <tab.icon className="h-4 w-4" />}
               {tab.name}
             </Link>
             {!isMobile && (

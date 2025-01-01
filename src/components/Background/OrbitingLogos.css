@@ -1,0 +1,80 @@
+.orbit-container {
+  position: relative;
+  height: 600px;
+  width: 600px;
+  user-select: none;
+}
+
+.center-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 12rem;
+  width: 12rem;
+  transform: translate(-50%, -50%);
+  border-radius: 9999px;
+  background: linear-gradient(
+    to bottom right,
+    rgba(59, 130, 246, 0.2),
+    rgba(147, 51, 234, 0.2)
+  );
+  box-shadow:
+    0 0 50px rgba(0, 0, 0, 0.3),
+    0 0 100px rgba(147, 51, 234, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+}
+
+@media (min-width: 768px) {
+  .center-circle {
+    height: 16rem;
+    width: 16rem;
+  }
+}
+
+.logo-wrapper {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 2.5rem;
+  width: 2.5rem;
+  margin: -20px;
+  transform-origin: 200px 20px;
+  color: rgb(229, 231, 235);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+@media (min-width: 768px) {
+  .logo-wrapper {
+    height: 3rem;
+    width: 3rem;
+    margin: -25px;
+    transform-origin: 250px 25px;
+  }
+}
+
+.logo-wrapper:hover {
+  transform: scale(1.25);
+}
+
+@keyframes orbit {
+  from {
+    transform: rotate(0deg) translateX(200px) rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(200px) rotate(-360deg);
+  }
+}
+
+@media (min-width: 768px) {
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(250px) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(250px) rotate(-360deg);
+    }
+  }
+}

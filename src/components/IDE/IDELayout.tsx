@@ -38,7 +38,7 @@ export function IDELayout({ children }: { children: React.ReactNode }) {
           {mounted && (
             <ResizablePanelGroup direction="horizontal">
               <ResizablePanel
-                defaultSize={20}
+                defaultSize={16}
                 minSize={15}
                 maxSize={30}
                 className="hidden md:block"

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTabsContext } from "@/contexts/TabsContext";
 import { useState, useEffect } from "react";
+import { VscodeIconsFileTypeDotenv } from "../Icons/VscodeIconsFileTypeDotenv";
 
 function LastUpdated() {
   const [lastUpdated, setLastUpdated] = useState<string>("");
@@ -39,7 +40,11 @@ export function Footer() {
 
   const handleStatsClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    addTab("coding-stats.tsx", "/coding-stats");
+    addTab({
+      name: "coding-stats.env",
+      path: "/coding-stats",
+      icon: VscodeIconsFileTypeDotenv,
+    });
     router.push("/coding-stats");
   };
 
