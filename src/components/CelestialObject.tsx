@@ -57,7 +57,7 @@ export default function CelestialObject() {
     };
 
     fetchAstronomyData();
-    const interval = setInterval(fetchAstronomyData, 60000); // Update every minute
+    const interval = setInterval(fetchAstronomyData, 600000); // Update every 10 minutes
     return () => clearInterval(interval);
   }, [mounted]);
 
@@ -69,40 +69,35 @@ export default function CelestialObject() {
     ) as HTMLElement;
     if (!ideElement) return;
 
-    const {
-      sun_altitude,
-      sun_azimuth,
-      moon_altitude,
-      moon_azimuth,
-      moon_illumination_percentage,
-    } = astronomyData;
+    const { sun_altitude, sun_azimuth, moon_altitude, moon_azimuth } =
+      astronomyData;
 
     // Use moon data at night, sun data during day
     const altitude = isNight ? moon_altitude : sun_altitude;
     const azimuth = isNight ? moon_azimuth : sun_azimuth;
 
     // Calculate normalized position of light source relative to the window
-    const lightX = -Math.sin((azimuth * Math.PI) / 180);
+    const lightX = Math.sin((azimuth * Math.PI) / 180);
     const lightY = Math.cos((azimuth * Math.PI) / 180);
 
     // Shadow should be opposite to light source
-    const shadowX = -lightX * 20; // 20px max offset
-    const shadowY = -lightY * 20;
+    const shadowX = -lightX * 25; // Increased from 20 to 25 for more pronounced shadow
+    const shadowY = -lightY * 25;
 
     // Calculate shadow intensity based on altitude
     const intensity = Math.max(
       0.05,
-      Math.min(0.15, ((90 - Math.abs(altitude)) / 90) * 0.15),
+      Math.min(0.25, ((90 - Math.abs(altitude)) / 90) * 0.25),
     );
 
-    // Set shadow color and opacity
+    // Set shadow color and opacity - same intensity for both sun and moon
     const shadowColor = isNight
-      ? `rgba(255, 255, 255, ${intensity * (parseInt(moon_illumination_percentage) / 100)})`
+      ? `rgba(255, 255, 255, ${intensity})`
       : `rgba(255, 215, 0, ${intensity})`;
 
     // Apply styles with transition
     ideElement.style.transition = "box-shadow 0.5s ease-in-out";
-    ideElement.style.boxShadow = `${shadowX}px ${shadowY}px 30px ${shadowColor}`;
+    ideElement.style.boxShadow = `${shadowX}px ${shadowY}px 45px ${shadowColor}`;
   }, [astronomyData, isNight, mounted]);
 
   useEffect(() => {
@@ -116,12 +111,17 @@ export default function CelestialObject() {
       const azimuth = isNight ? moon_azimuth : sun_azimuth;
 
       // Convert astronomical coordinates to screen position
-      // Invert the sin calculation to match natural movement (east to west)
-      const x = -Math.sin((azimuth * Math.PI) / 180) * (90 - altitude);
+      // For both sun and moon:
+      // East (90°) -> left side of screen
+      // South (180°) -> middle of screen
+      // West (270°) -> right side of screen
+      const x = Math.sin((azimuth * Math.PI) / 180) * (90 - altitude);
       const y = Math.cos((azimuth * Math.PI) / 180) * (90 - altitude) * 0.5;
 
+      // Scale to viewport size and adjust for visibility
+      // Using 80 instead of 100 to center the range, and scaling by 0.8 to keep within bounds
       setPosition({
-        x: (x + 100) * (window.innerWidth / 200),
+        x: (x * 0.8 + 80) * (window.innerWidth / 160),
         y: (y + 40) * (window.innerHeight / 200),
       });
     };
