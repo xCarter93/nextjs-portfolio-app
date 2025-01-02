@@ -140,7 +140,9 @@ export default function CelestialObject() {
     width: isNight ? "50px" : "70px",
     height: isNight ? "50px" : "70px",
     borderRadius: "50%",
-    backgroundColor: isNight ? "#ffffff" : "#ffd700",
+    background: isNight
+      ? "radial-gradient(circle at 30% 30%, #ffffff 0%, #ffffff 20%, #e0e0e0 40%, #808080 100%)"
+      : "radial-gradient(circle at 30% 30%, #ffffff 0%, #fff176 30%, #ffd700 60%, #ff8f00 100%)",
     boxShadow: isNight
       ? `0 0 50px 20px rgba(255, 255, 255, ${
           parseInt(astronomyData.moon_illumination_percentage) / 100
