@@ -144,10 +144,12 @@ export default function CelestialObject() {
       ? "radial-gradient(circle at 30% 30%, #ffffff 0%, #ffffff 20%, #e0e0e0 40%, #808080 100%)"
       : "radial-gradient(circle at 30% 30%, #ffffff 0%, #fff176 30%, #ffd700 60%, #ff8f00 100%)",
     boxShadow: isNight
-      ? `0 0 50px 20px rgba(255, 255, 255, ${
-          parseInt(astronomyData.moon_illumination_percentage) / 100
-        })`
-      : "0 0 50px 20px rgba(255, 215, 0, 0.5)",
+      ? `0 0 15px 5px rgba(255, 255, 255, 0.5),
+         0 0 30px 8px rgba(255, 255, 255, 0.3),
+         0 0 45px 12px rgba(255, 255, 255, 0.15)`
+      : `0 0 15px 5px rgba(255, 215, 0, 0.5),
+         0 0 30px 8px rgba(255, 215, 0, 0.3),
+         0 0 45px 12px rgba(255, 215, 0, 0.15)`,
     zIndex: 0,
     pointerEvents: "none" as const,
   };
