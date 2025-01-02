@@ -8,6 +8,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
+import CelestialObjectWrapper from "@/components/CelestialObjectWrapper";
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         className={`${jetbrainsMono.className} text-sm antialiased`}
       >
         <ParticlesBackground />
+        <CelestialObjectWrapper />
         <ClerkProvider>
           <TabsProvider>
             <IDELayout>

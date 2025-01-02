@@ -53,6 +53,7 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
   if (!mounted) {
     return (
       <div
+        data-ide-window
         style={{
           width: isLargeScreen ? size.width : "100vw",
           height: isLargeScreen ? size.height : "100vh",
@@ -67,6 +68,7 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
   if (!isLargeScreen) {
     return (
       <div
+        data-ide-window
         style={{
           width: "100vw",
           height: "100vh",
@@ -113,6 +115,7 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
         });
       }}
       className={commonStyles}
+      data-ide-window
     >
       {children}
     </Rnd>

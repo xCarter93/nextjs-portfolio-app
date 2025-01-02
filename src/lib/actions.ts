@@ -193,3 +193,22 @@ export async function sendEmail(prevState: EmailState, formData: FormData) {
     throw new Error("Failed to send message. Please try again.");
   }
 }
+
+export async function getAstronomyData() {
+  try {
+    const apiKey = process.env.IP_GEOLOCATION_API_KEY;
+    const response = await fetch(
+      `https://api.ipgeolocation.io/astronomy?apiKey=${apiKey}`,
+      { next: { revalidate: 60 } }, // Cache for 1 minute
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch astronomy data");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching astronomy data:", error);
+    throw new Error("Failed to fetch astronomy data");
+  }
+}
