@@ -24,7 +24,12 @@ export function ContactForm() {
     async (prevState: { success: boolean } | null, formData: FormData) => {
       try {
         const result = await sendEmail(prevState, formData);
-        toast.success("Message sent successfully!");
+        if (result.success) {
+          toast.success("Message sent successfully!");
+          // Reset form
+          const form = document.querySelector("form") as HTMLFormElement;
+          form?.reset();
+        }
         return result;
       } catch (error) {
         toast.error(
@@ -51,6 +56,7 @@ export function ContactForm() {
           name="name"
           className="w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-gray-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
+          formNoValidate
         />
       </div>
 
@@ -67,6 +73,7 @@ export function ContactForm() {
           name="email"
           className="w-full rounded-md border border-gray-600 bg-gray-700 px-4 py-2 text-gray-200 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           required
+          formNoValidate
         />
       </div>
 

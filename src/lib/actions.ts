@@ -7,6 +7,7 @@ import { currentUser } from "@clerk/nextjs/server";
 import { Resend } from "resend";
 import { createElement } from "react";
 import { ContactTemplate } from "@/components/emails/ContactTemplate";
+import { contactFormSchema } from "./validation";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -171,21 +172,30 @@ export const createPost = async (formData: FormData) => {
 type EmailState = { success: boolean } | null;
 
 export async function sendEmail(prevState: EmailState, formData: FormData) {
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const message = formData.get("message") as string;
+  const rawFormData = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    message: formData.get("message"),
+  };
 
-  if (!name || !email || !message) {
-    throw new Error("Please fill in all fields.");
+  const result = contactFormSchema.safeParse(rawFormData);
+
+  if (!result.success) {
+    const errorMessages = result.error.errors
+      .map((error) => error.message)
+      .join(", ");
+    throw new Error(errorMessages);
   }
+
+  const validatedData = result.data;
 
   try {
     await resend.emails.send({
       from: "Portfolio Contact Form <onboarding@resend.dev>",
       to: ["xcarter93@gmail.com"],
-      subject: `${name} has reached out!`,
-      replyTo: email,
-      react: createElement(ContactTemplate, { name, email, message }),
+      subject: `${validatedData.name} has reached out!`,
+      replyTo: validatedData.email,
+      react: createElement(ContactTemplate, validatedData),
     });
 
     return { success: true };
