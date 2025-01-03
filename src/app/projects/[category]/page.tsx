@@ -28,10 +28,10 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <div className="p-4 text-gray-300">
-      <div className="mb-6">
+      <div className="mb-6 flex">
         <Link
           href="/projects"
-          className="group flex items-center gap-2 text-gray-400 transition-colors hover:text-gray-200"
+          className="inline-flex items-center gap-2 text-gray-400 transition-colors hover:text-gray-200"
         >
           <ArrowLeft className="h-5 w-5" />
           <span>Back to Categories</span>
