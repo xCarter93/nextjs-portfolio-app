@@ -6,16 +6,20 @@ import Link from "next/link";
 
 const DEFAULT_IMAGE = "/placeholder.jpg";
 
-export default function CategoryPage({
-  params,
-}: {
-  params: { category: string };
-}) {
+interface PageProps {
+  params: Promise<{
+    category: string;
+  }>;
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+export default async function CategoryPage({ params }: PageProps) {
   const projects = getContents("projects");
-  const category = params.category.toLowerCase();
+  const { category } = await params;
 
   const filteredProjects = projects.filter(
-    (project) => project.metadata.technology?.toLowerCase() === category,
+    (project) =>
+      project.metadata.technology?.toLowerCase() === category.toLowerCase(),
   );
 
   if (filteredProjects.length === 0) {
