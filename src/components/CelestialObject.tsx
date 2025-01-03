@@ -104,25 +104,64 @@ export default function CelestialObject() {
     if (!mounted || !astronomyData) return;
 
     const updatePosition = () => {
-      const { sun_altitude, sun_azimuth, moon_altitude, moon_azimuth } =
-        astronomyData;
+      const currentTime = new Date();
+      const sunriseTime = new Date();
+      const sunsetTime = new Date();
 
-      const altitude = isNight ? moon_altitude : sun_altitude;
-      const azimuth = isNight ? moon_azimuth : sun_azimuth;
+      const [sunriseHour, sunriseMinute] = astronomyData.sunrise.split(":");
+      const [sunsetHour, sunsetMinute] = astronomyData.sunset.split(":");
 
-      // Convert astronomical coordinates to screen position
-      // For both sun and moon:
-      // East (90°) -> left side of screen
-      // South (180°) -> middle of screen
-      // West (270°) -> right side of screen
-      const x = Math.sin((azimuth * Math.PI) / 180) * (90 - altitude);
-      const y = Math.cos((azimuth * Math.PI) / 180) * (90 - altitude) * 0.5;
+      sunriseTime.setHours(parseInt(sunriseHour), parseInt(sunriseMinute));
+      sunsetTime.setHours(parseInt(sunsetHour), parseInt(sunsetMinute));
 
-      // Scale to viewport size and adjust for visibility
-      // Using 80 instead of 100 to center the range, and scaling by 0.8 to keep within bounds
+      // Calculate position based on time of day
+      let horizontalPosition;
+      if (isNight) {
+        // For night time (moon)
+        if (currentTime < sunriseTime) {
+          // Between midnight and sunrise
+          const totalNightMinutes =
+            (24 - parseInt(sunsetHour)) * 60 + parseInt(sunriseHour) * 60;
+          const minutesSinceSunset =
+            currentTime.getHours() * 60 +
+            currentTime.getMinutes() +
+            (24 - parseInt(sunsetHour)) * 60 -
+            parseInt(sunsetMinute);
+          horizontalPosition = (minutesSinceSunset / totalNightMinutes) * 100;
+        } else {
+          // Between sunset and midnight
+          const totalNightMinutes = (24 - parseInt(sunsetHour)) * 60;
+          const minutesSinceSunset =
+            (currentTime.getHours() - parseInt(sunsetHour)) * 60 +
+            (currentTime.getMinutes() - parseInt(sunsetMinute));
+          horizontalPosition = (minutesSinceSunset / totalNightMinutes) * 100;
+        }
+      } else {
+        // For day time (sun)
+        const totalDayMinutes =
+          (parseInt(sunsetHour) - parseInt(sunriseHour)) * 60 +
+          (parseInt(sunsetMinute) - parseInt(sunriseMinute));
+        const minutesSinceSunrise =
+          (currentTime.getHours() - parseInt(sunriseHour)) * 60 +
+          (currentTime.getMinutes() - parseInt(sunriseMinute));
+        horizontalPosition = (minutesSinceSunrise / totalDayMinutes) * 100;
+      }
+
+      // Ensure position stays within bounds
+      horizontalPosition = Math.max(10, Math.min(90, horizontalPosition));
+
+      // Calculate vertical position based on altitude
+      const altitude = isNight
+        ? astronomyData.moon_altitude
+        : astronomyData.sun_altitude;
+      const verticalPosition = Math.max(
+        2,
+        Math.min(8, ((90 - altitude) / 90) * 6 + 2),
+      );
+
       setPosition({
-        x: (x * 0.8 + 80) * (window.innerWidth / 160),
-        y: (y + 40) * (window.innerHeight / 200),
+        x: (horizontalPosition * window.innerWidth) / 100,
+        y: (verticalPosition * window.innerHeight) / 100,
       });
     };
 

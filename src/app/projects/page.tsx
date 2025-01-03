@@ -1,6 +1,8 @@
 import { getContents } from "@/lib/contents";
 import { ModernInnerShadowCardVariant1 } from "./_components/ModernInnerShadowCardVariant1";
 
+const DEFAULT_IMAGE = "/placeholder.jpg";
+
 export default function ProjectsPage() {
   const projects = getContents("projects");
 
@@ -10,22 +12,13 @@ export default function ProjectsPage() {
         {projects.map((project) => (
           <ModernInnerShadowCardVariant1
             key={project.slug}
-            backgroundImage={project.metadata.image}
-          >
-            <div className="flex h-full flex-col justify-between space-y-2">
-              <div>
-                <h2 className="text-lg font-semibold text-gray-200">
-                  {project.metadata.title}
-                </h2>
-                <p className="line-clamp-2 text-sm text-gray-400">
-                  {project.metadata.summary}
-                </p>
-              </div>
-              <code className="text-sm text-[#5de4c7]">
-                Technology: {project.metadata.technology}
-              </code>
-            </div>
-          </ModernInnerShadowCardVariant1>
+            title={project.metadata.title}
+            hoverTitle={`View ${project.metadata.title}`}
+            description={project.metadata.summary}
+            tag={project.metadata.technology}
+            image={project.metadata.image || DEFAULT_IMAGE}
+            hoverImage={project.metadata.image || DEFAULT_IMAGE}
+          />
         ))}
       </div>
     </div>
