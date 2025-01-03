@@ -28,7 +28,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <div className="p-4 text-gray-300">
-      <div className="mb-6 flex">
+      <div className="mb-6">
         <Link
           href="/projects"
           className="inline-flex items-center gap-2 text-gray-400 transition-colors hover:text-gray-200"
@@ -46,7 +46,6 @@ export default async function CategoryPage({ params }: PageProps) {
             description={project.metadata.summary}
             tag={project.metadata.technology}
             image={project.metadata.image || DEFAULT_IMAGE}
-            hoverImage={project.metadata.image || DEFAULT_IMAGE}
           />
         ))}
       </div>
