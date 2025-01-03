@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getAstronomyData } from "@/lib/actions";
 
 interface AstronomyData {
@@ -26,6 +26,7 @@ export default function CelestialObject() {
   );
   const [isNight, setIsNight] = useState(false);
   const [position, setPosition] = useState<Position>({ x: 0, y: 0 });
+  const isInitialMount = useRef(true);
 
   useEffect(() => {
     setMounted(true);
@@ -69,28 +70,84 @@ export default function CelestialObject() {
     ) as HTMLElement;
     if (!ideElement) return;
 
-    const { sun_altitude, sun_azimuth, moon_altitude, moon_azimuth } =
-      astronomyData;
+    const currentTime = new Date();
+    const sunriseTime = new Date();
+    const sunsetTime = new Date();
 
-    // Use moon data at night, sun data during day
-    const altitude = isNight ? moon_altitude : sun_altitude;
-    const azimuth = isNight ? moon_azimuth : sun_azimuth;
+    const [sunriseHour, sunriseMinute] = astronomyData.sunrise.split(":");
+    const [sunsetHour, sunsetMinute] = astronomyData.sunset.split(":");
 
-    // Calculate normalized position of light source relative to the window
-    const lightX = Math.sin((azimuth * Math.PI) / 180);
-    const lightY = Math.cos((azimuth * Math.PI) / 180);
+    sunriseTime.setHours(parseInt(sunriseHour), parseInt(sunriseMinute));
+    sunsetTime.setHours(parseInt(sunsetHour), parseInt(sunsetMinute));
 
-    // Shadow should be opposite to light source
-    const shadowX = -lightX * 25; // Increased from 20 to 25 for more pronounced shadow
-    const shadowY = -lightY * 25;
+    // Calculate position based on time of day
+    let horizontalPosition;
+    if (isNight) {
+      // For night time (moon)
+      if (currentTime < sunriseTime) {
+        // Between midnight and sunrise
+        const totalNightMinutes =
+          (24 - parseInt(sunsetHour)) * 60 + parseInt(sunriseHour) * 60;
+        const minutesSinceSunset =
+          currentTime.getHours() * 60 +
+          currentTime.getMinutes() +
+          (24 - parseInt(sunsetHour)) * 60 -
+          parseInt(sunsetMinute);
+        horizontalPosition = (minutesSinceSunset / totalNightMinutes) * 100;
+      } else {
+        // Between sunset and midnight
+        const totalNightMinutes = (24 - parseInt(sunsetHour)) * 60;
+        const minutesSinceSunset =
+          (currentTime.getHours() - parseInt(sunsetHour)) * 60 +
+          (currentTime.getMinutes() - parseInt(sunsetMinute));
+        horizontalPosition = (minutesSinceSunset / totalNightMinutes) * 100;
+      }
+    } else {
+      // For day time (sun)
+      const totalDayMinutes =
+        (parseInt(sunsetHour) - parseInt(sunriseHour)) * 60 +
+        (parseInt(sunsetMinute) - parseInt(sunriseMinute));
+      const minutesSinceSunrise =
+        (currentTime.getHours() - parseInt(sunriseHour)) * 60 +
+        (currentTime.getMinutes() - parseInt(sunriseMinute));
+      horizontalPosition = (minutesSinceSunrise / totalDayMinutes) * 100;
+    }
 
-    // Calculate shadow intensity based on altitude
+    // Ensure position stays within bounds
+    horizontalPosition = Math.max(10, Math.min(90, horizontalPosition));
+
+    // Calculate shadow direction based on horizontal position
+    // When horizontalPosition is 10 (left), shadow should be bottom-right
+    // When horizontalPosition is 90 (right), shadow should be bottom-left
+    // When horizontalPosition is 50 (middle), shadow should be straight down
+    const normalizedPosition = (horizontalPosition - 50) / 40; // Convert 10-90 range to -1 to 1
+
+    // Calculate horizontal shadow component
+    // Maximum shadow offset at the edges, reduces towards center
+    const shadowX = -normalizedPosition * 30; // Increased range for more pronounced effect
+
+    // Calculate vertical shadow component
+    // Maximum shadow when in the middle, reduces towards the sides
+    const verticalFactor = 1 - Math.abs(normalizedPosition); // 1 at center, 0 at edges
+    const shadowY = 20 + 10 * verticalFactor; // Base of 20px, additional 10px at center
+
+    // Calculate shadow intensity based on position and altitude
+    const altitude = isNight
+      ? astronomyData.moon_altitude
+      : astronomyData.sun_altitude;
+
+    // Base intensity varies with horizontal position
+    // Strongest on the opposite side from the light source
+    const baseIntensity = 0.25 - Math.abs(normalizedPosition) * 0.1; // 0.25 at center, 0.15 at edges
+
+    // Combine with altitude-based intensity
+    const altitudeIntensity = (90 - Math.abs(altitude)) / 90;
     const intensity = Math.max(
       0.05,
-      Math.min(0.25, ((90 - Math.abs(altitude)) / 90) * 0.25),
+      Math.min(0.3, baseIntensity * altitudeIntensity),
     );
 
-    // Set shadow color and opacity - same intensity for both sun and moon
+    // Set shadow color and opacity
     const shadowColor = isNight
       ? `rgba(255, 255, 255, ${intensity})`
       : `rgba(255, 215, 0, ${intensity})`;
@@ -159,10 +216,26 @@ export default function CelestialObject() {
         Math.min(8, ((90 - altitude) / 90) * 6 + 2),
       );
 
-      setPosition({
-        x: (horizontalPosition * window.innerWidth) / 100,
-        y: (verticalPosition * window.innerHeight) / 100,
-      });
+      // Set initial position with a lower y value
+      if (isInitialMount.current) {
+        isInitialMount.current = false;
+        setPosition({
+          x: -100, // Start off-screen left
+          y: window.innerHeight * 0.15, // Start 15% from top of screen
+        });
+
+        setTimeout(() => {
+          setPosition({
+            x: (horizontalPosition * window.innerWidth) / 100,
+            y: (verticalPosition * window.innerHeight) / 100,
+          });
+        }, 100);
+      } else {
+        setPosition({
+          x: (horizontalPosition * window.innerWidth) / 100,
+          y: (verticalPosition * window.innerHeight) / 100,
+        });
+      }
     };
 
     updatePosition();
@@ -191,6 +264,10 @@ export default function CelestialObject() {
          0 0 45px 12px rgba(255, 215, 0, 0.15)`,
     zIndex: 0,
     pointerEvents: "none" as const,
+    transition:
+      "left 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), top 1.5s cubic-bezier(0.2, 0.8, 0.2, 1)",
+    transform: position.x === -100 ? "translateX(-100%)" : "none",
+    opacity: position.x === -100 ? 0 : 1,
   };
 
   return <div style={celestialStyles} />;
