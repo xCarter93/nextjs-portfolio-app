@@ -139,17 +139,20 @@ MIT License - feel free to use this for your own portfolio!
 ```mermaid
 flowchart TB
     Client[Client Browser]
-    Next[Next.js App Router]
-    API[API Routes]
+    Next[Next.js 15 App Router]
+    Server[Server Actions]
     DB[(Postgres DB)]
     GH[GitHub API]
     WK[WakaTime API]
+    Clerk[Clerk Auth]
 
     Client --> Next
-    Next --> API
-    API --> DB
-    API --> GH
-    API --> WK
+    Next --> Server
+    Server --> DB
+    Server --> GH
+    Server --> WK
+    Client --> Clerk
+    Clerk --> Next
 
     subgraph Frontend
         Next --> Pages[Pages]
@@ -157,6 +160,9 @@ flowchart TB
         Components --> IDE[IDE Components]
         Components --> Charts[Data Visualization]
         Components --> UI[UI Components]
+        Components --> Background[Dynamic Background]
+        Background --> Sun[Sun/Moon System]
+        Background --> Particles[Particle Effects]
     end
 
     subgraph State Management
