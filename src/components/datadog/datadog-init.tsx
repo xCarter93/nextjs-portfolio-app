@@ -3,8 +3,8 @@
 import { datadogRum } from '@datadog/browser-rum';
 
 datadogRum.init({
-    applicationId: process.env.DATADOG_APPLICATION_ID!,
-    clientToken: process.env.DATADOG_CLIENT_TOKEN!,
+    applicationId: 'c1ba61ee-6d92-4be5-bffc-d6296912e73a',
+    clientToken: 'pub3200e02e9dba0c5fd1babb0aaddfc657',
     site: 'datadoghq.com',
     service: 'vscode-portfolio',
     env: 'prod',
