@@ -9,6 +9,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "sonner";
 import CelestialObjectWrapper from "@/components/CelestialObjectWrapper";
+import DatadogInit from "@/components/datadog/datadog-init";
 
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className={`${jetbrainsMono.className} text-sm antialiased`}
       >
+        <DatadogInit />
         <ParticlesBackground />
         <CelestialObjectWrapper />
         <ClerkProvider>
