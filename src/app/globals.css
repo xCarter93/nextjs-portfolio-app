@@ -81,3 +81,26 @@ pre[class*="language-"] {
 .token.punctuation {
   color: #abb2bf;
 }
+
+.ide-responsive-logos {
+  position: absolute;
+  left: 50%;
+  top: 320px;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+/* When the container (IDE window) is wide enough, position to the right */
+@container (min-width: 1400px) {
+  .ide-responsive-logos {
+    left: auto;
+    top: 50%;
+    right: -150px;
+    transform: translateY(-50%);
+  }
+}
+
+/* Apply container query context to the main content area */
+[data-ide-window] {
+  container-type: inline-size;
+}

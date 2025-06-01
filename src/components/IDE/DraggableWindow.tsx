@@ -3,6 +3,7 @@
 import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import { useIDEWindow } from "@/contexts/IDEWindowContext";
 
 interface DraggableWindowProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
     width: 1600,
     height: 900,
   });
+  const { setWindowSize } = useIDEWindow();
 
   useEffect(() => {
     setMounted(true);
@@ -27,23 +29,27 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
         const maxWidth = Math.min(window.innerWidth - padding, 1600);
         const maxHeight = Math.min(window.innerHeight - 64, 900);
 
-        setSize({
+        const newSize = {
           width: maxWidth,
           height: maxHeight,
-        });
+        };
+        setSize(newSize);
+        setWindowSize(newSize);
       } else {
         // Full screen for mobile
-        setSize({
+        const newSize = {
           width: window.innerWidth,
           height: window.innerHeight,
-        });
+        };
+        setSize(newSize);
+        setWindowSize(newSize);
       }
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [setWindowSize]);
 
   const commonStyles = cn(
     "overflow-hidden bg-[#1e1e1e] shadow-2xl",
@@ -109,10 +115,12 @@ export function DraggableWindow({ children }: DraggableWindowProps) {
         topRight: { cursor: "ne-resize" },
       }}
       onResize={(e, direction, ref) => {
-        setSize({
+        const newSize = {
           width: ref.offsetWidth,
           height: ref.offsetHeight,
-        });
+        };
+        setSize(newSize);
+        setWindowSize(newSize);
       }}
       className={commonStyles}
       data-ide-window

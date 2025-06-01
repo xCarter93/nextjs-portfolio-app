@@ -1,18 +1,46 @@
 import { ClientBootWrapper } from "@/components/ClientBootWrapper";
 import { HomeContent } from "@/components/HomeContent";
 import { OrbitingLogos } from "@/components/Background/OrbitingLogos";
+import { useIDEWindow } from "@/contexts/IDEWindowContext";
 
 export default function Home() {
   return (
-    <div className="relative flex h-full w-full flex-col items-start overflow-y-auto text-gray-300 xl:justify-center">
+    <div className="relative flex h-full w-full flex-col items-start overflow-y-auto text-gray-300">
       <ClientBootWrapper>
-        <div className="fixed bottom-[-300px] left-1/2 -translate-x-1/2 md:left-[calc(50%+88px)] xl:bottom-auto xl:left-auto xl:right-[-300px] xl:top-1/2 xl:-translate-y-1/2 xl:translate-x-0">
-          <OrbitingLogos />
-        </div>
-        <div className="relative w-full pb-[300px] xl:pb-0">
-          <HomeContent />
-        </div>
+        <HomePageContent />
       </ClientBootWrapper>
+    </div>
+  );
+}
+
+function HomePageContent() {
+  const { windowSize } = useIDEWindow();
+  const isLargeWindow = windowSize.width >= 1400;
+
+  return (
+    <div className="relative w-full pb-[300px] xl:pb-0">
+      {/* Adjust content positioning based on window size */}
+      <div 
+        className="relative w-full"
+        style={{
+          paddingTop: isLargeWindow ? '0' : '2rem', // Push content up on small screens
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: isLargeWindow ? 'center' : 'flex-start',
+          minHeight: isLargeWindow ? '100vh' : 'auto'
+        }}
+      >
+        <HomeContent />
+        <OrbitingLogosPositioned />
+      </div>
+    </div>
+  );
+}
+
+function OrbitingLogosPositioned() {
+  return (
+    <div className="ide-responsive-logos">
+      <OrbitingLogos />
     </div>
   );
 }
