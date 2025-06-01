@@ -1,3 +1,5 @@
+"use client";
+
 import { ClientBootWrapper } from "@/components/ClientBootWrapper";
 import { HomeContent } from "@/components/HomeContent";
 import { OrbitingLogos } from "@/components/Background/OrbitingLogos";
